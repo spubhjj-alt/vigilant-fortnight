@@ -1,0 +1,2870 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎯 Sri lanka Dragan cryptocurrency web sniper signal - Pro Dashboard</title>
+<!-- TradingView Widget Script -->
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
+<!-- Firebase SDK for Real-time Cross-Device Chat -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+  :root {
+    --bg-dark: #0a0e17; --bg-card: #111827; --bg-hover: #1f2937;
+    --accent: #10b981; --accent-red: #ef4444; --accent-gold: #f59e0b;
+    --accent-blue: #3b82f6; --accent-purple: #8b5cf6; --accent-cyan: #06b6d4;
+    --text-primary: #f3f4f6; --text-secondary: #9ca3af; --border: #374151;
+    --trend-up: #00d084; --trend-down: #ff4757;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-dark); color: var(--text-primary); min-height: 100vh; }
+  .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 30px; flex-wrap: wrap; gap: 16px; }
+  .logo { font-size: 24px; font-weight: 800; color: var(--accent); }
+  .logo span { color: var(--text-primary); }
+  .nav-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; font-size: 14px; }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: #059669; transform: translateY(-1px); }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-primary); }
+  .btn-outline:hover { background: var(--bg-hover); }
+  .btn-danger { background: var(--accent-red); color: white; }
+  .btn-gold { background: var(--accent-gold); color: black; }
+  .grid { display: grid; gap: 20px; }
+  .grid-4 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .grid-2 { grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s; }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .card-title { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+  .card-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .badge-green { background: rgba(16, 185, 129, 0.2); color: var(--accent); }
+  .badge-gold { background: rgba(245, 158, 11, 0.2); color: var(--accent-gold); }
+  .badge-blue { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
+  .badge-purple { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
+  .badge-cyan { background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan); }
+  .badge-red { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+  .stat-value { font-size: 32px; font-weight: 800; margin: 8px 0; }
+  .stat-label { font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-change { font-size: 14px; font-weight: 600; margin-top: 4px; }
+  .positive { color: var(--accent); }
+  .negative { color: var(--accent-red); }
+  .form-group { margin-bottom: 16px; }
+  .form-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary); }
+  .form-input { width: 100%; padding: 12px 16px; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-size: 14px; transition: all 0.3s; }
+  .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+  .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(4px); }
+  .modal-overlay.active { display: flex; }
+  .modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; padding: 32px; animation: modalSlide 0.3s ease; }
+  @keyframes modalSlide { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .modal-title { font-size: 20px; font-weight: 700; }
+  .close-btn { background: none; border: none; color: var(--text-secondary); font-size: 24px; cursor: pointer; }
+  .close-btn:hover { color: var(--text-primary); }
+  .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 0; flex-wrap: wrap; }
+  .tab { padding: 10px 20px; background: none; border: none; color: var(--text-secondary); cursor: pointer; font-weight: 600; font-size: 14px; border-bottom: 2px solid transparent; transition: all 0.3s; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab:hover { color: var(--text-primary); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .status-indicator { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .status-online { background: rgba(16, 185, 129, 0.2); color: var(--accent); }
+  .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .config-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(55, 65, 81, 0.3); }
+  .config-label { font-size: 14px; }
+  .config-value { font-weight: 700; color: var(--accent); }
+  .toast { position: fixed; bottom: 20px; right: 20px; padding: 16px 24px; background: var(--bg-card); border: 1px solid var(--accent); border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.4); transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 2000; display: flex; align-items: center; gap: 10px; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .hidden { display: none !important; }
+  .bot-control { display: flex; gap: 12px; margin-bottom: 20px; padding: 16px; background: linear-gradient(135deg, var(--bg-card) 0%, #1a2332 100%); border: 1px solid var(--border); border-radius: 12px; align-items: center; justify-content: center; }
+  .bot-status { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 15px 30px; border-radius: 8px; font-weight: 800; font-size: 18px; width: 100%; text-align: center; }
+  .bot-running { background: rgba(16, 185, 129, 0.1); color: var(--accent); border: 1px solid var(--accent); }
+  .coin-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; max-height: 250px; overflow-y: auto; padding-right: 5px; }
+  .coin-btn { padding: 10px 8px; background: var(--bg-hover); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.3s; text-align: center; }
+  .coin-btn.selected { background: rgba(16, 185, 129, 0.2); border-color: var(--accent); color: var(--accent); }
+  .news-item { padding: 12px; background: var(--bg-hover); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid var(--accent-blue); line-height: 1.5; }
+  .news-title { font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+  .news-meta { font-size: 12px; color: var(--text-secondary); }
+  .trend-indicator { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 8px; font-size: 14px; font-weight: 600; }
+  .trend-bullish { background: rgba(0, 208, 132, 0.15); color: var(--trend-up); }
+  .trend-bearish { background: rgba(255, 71, 87, 0.15); color: var(--trend-down); }
+  .trend-neutral { background: rgba(156, 163, 175, 0.15); color: var(--text-secondary); }
+
+  .smc-signal-box { background: rgba(10, 14, 23, 0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; margin-top: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: pointer; transition: all 0.3s ease; }
+  .smc-signal-box:hover { box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); border-color: var(--accent); transform: scale(1.01); }
+  .smc-stat-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
+  .smc-stat-row:last-child { border-bottom: none; }
+  .smc-label { color: var(--text-secondary); font-size: 14px; }
+  .smc-val { font-size: 16px; font-weight: bold; color: white; }
+
+  /* FULL SCREEN CSS FIX FOR MOBILE */
+  #chartCardContainer { position: relative; }
+  #chartCardContainer:fullscreen, #bubblesCardContainer:fullscreen, #goldChartCardContainer:fullscreen { width: 100vw; height: 100vh; padding: 0; margin: 0; border-radius: 0; display: flex; flex-direction: column; background: var(--bg-dark); overflow: hidden; }
+  #chartCardContainer:fullscreen .card-header, #bubblesCardContainer:fullscreen .card-header, #goldChartCardContainer:fullscreen .card-header { padding: 15px; margin: 0; border-bottom: 1px solid var(--border); }
+  #chartCardContainer:fullscreen #tv_chart_container, #bubblesCardContainer:fullscreen #bubbles_container, #goldChartCardContainer:fullscreen #gold_chart_container { flex: 1; height: 100% !important; border-radius: 0; }
+  #chartCardContainer:-webkit-full-screen, #bubblesCardContainer:-webkit-full-screen, #goldChartCardContainer:-webkit-full-screen { width: 100vw; height: 100vh; padding: 0; margin: 0; border-radius: 0; display: flex; flex-direction: column; background: var(--bg-dark); overflow: hidden; }
+  #chartCardContainer:-webkit-full-screen .card-header, #bubblesCardContainer:-webkit-full-screen .card-header, #goldChartCardContainer:-webkit-full-screen .card-header { padding: 15px; margin: 0; border-bottom: 1px solid var(--border); }
+  #chartCardContainer:-webkit-full-screen #tv_chart_container, #bubblesCardContainer:-webkit-full-screen #bubbles_container, #goldChartCardContainer:-webkit-full-screen #gold_chart_container { flex: 1; height: 100% !important; border-radius: 0; }
+
+  /* METER STYLE FOR FEAR/GREED */
+  .meter-container { height: 12px; background: #374151; border-radius: 6px; margin-top: 10px; overflow: hidden; position: relative; }
+  .meter-fill { height: 100%; border-radius: 6px; transition: width 1s ease; }
+
+  /* --- NEW CHAT SYSTEM STYLES (TELEGRAM STYLE) --- */
+  .chat-widget { position: fixed; bottom: 30px; right: 30px; width: 380px; height: 550px; background: #0e1621; border-radius: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); display: flex; flex-direction: column; z-index: 9999; border: 1px solid var(--border); transform: scale(0); opacity: 0; transform-origin: bottom right; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow: hidden; }
+  .chat-widget.open { transform: scale(1); opacity: 1; }
+  .chat-header { background: #17212b; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .chat-header-title { font-weight: bold; font-size: 16px; color: #fff; display: flex; align-items: center; gap: 8px; }
+  .chat-header-subtitle { font-size: 12px; color: var(--accent); font-weight: normal; }
+  .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #000000; }
+  .msg { max-width: 80%; padding: 8px 12px; border-radius: 12px; font-size: 14px; position: relative; line-height: 1.4; word-wrap: break-word; }
+  .msg-other { align-self: flex-start; background: #182533; color: #fff; border-bottom-left-radius: 4px; }
+  .msg-mine { align-self: flex-end; background: #2b5278; color: #fff; border-bottom-right-radius: 4px; }
+  .msg-sender { font-size: 11px; font-weight: bold; color: var(--accent-cyan); margin-bottom: 4px; }
+  .msg-time { font-size: 10px; color: rgba(255,255,255,0.5); text-align: right; margin-top: 4px; }
+  .msg-sticker { background: transparent !important; padding: 0; max-width: 120px; }
+  .msg-sticker img { width: 100%; border-radius: 8px; }
+  .chat-input-area { background: #17212b; padding: 10px 15px; display: flex; align-items: center; gap: 10px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .chat-input { flex: 1; background: #242f3d; border: none; padding: 12px 15px; border-radius: 20px; color: white; font-size: 14px; outline: none; }
+  .chat-btn { background: none; border: none; color: #8b9eb0; font-size: 20px; cursor: pointer; transition: color 0.2s; display: flex; align-items: center; justify-content: center; }
+  .chat-btn:hover { color: var(--accent); }
+  .sticker-panel { position: absolute; bottom: 65px; left: 10px; right: 10px; background: #17212b; border: 1px solid var(--border); border-radius: 12px; padding: 10px; display: none; grid-template-columns: repeat(4, 1fr); gap: 10px; max-height: 200px; overflow-y: auto; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
+  .sticker-panel.show { display: grid; }
+  .sticker-item { width: 100%; cursor: pointer; border-radius: 8px; transition: transform 0.2s; }
+  .sticker-item:hover { transform: scale(1.1); background: rgba(255,255,255,0.1); }
+
+  /* SUPER CONTAINER STYLES (NEW) */
+  .super-container { border-radius: 16px; padding: 25px; margin-bottom: 40px; background: rgba(17, 24, 39, 0.4); box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+
+  @media (max-width: 768px) {
+    .grid-4, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    header { flex-direction: column; gap: 16px; }
+    #chartAndTaGrid, #goldChartAndTaGrid { grid-template-columns: 1fr !important; }
+    .chat-widget { width: 100%; height: 100%; bottom: 0; right: 0; border-radius: 0; position: fixed; z-index: 10000; }
+    .super-container { padding: 15px; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="logo" style="display: flex; flex-direction: column; align-items: flex-start;">
+      <div>🎯 <span>Sri lanka Dragan cryptocurrency web</span> sniper signal <span style="font-size: 14px; color: var(--accent-gold);">(Pro Strategy Active)</span></div>
+    </div>
+    <div class="nav-buttons" id="authButtons">
+      <button class="btn btn-outline" onclick="showModal('loginModal')">Sign In</button>
+      <button class="btn btn-primary" onclick="showModal('signupModal')">Sign Up</button>
+    </div>
+    <div class="nav-buttons hidden" id="userButtons">
+      <div class="status-indicator status-online" id="globalBotStatus"><span class="pulse"></span> System Online</div>
+      
+      <!-- NEW: OWNER PANEL BUTTON (HIDDEN BY DEFAULT) -->
+      <button id="ownerPanelBtn" class="btn btn-gold hidden" onclick="showModal('ownerModal')">👑 Owner Panel</button>
+
+      <button class="btn btn-primary" style="background: var(--accent-blue);" onclick="toggleChat()"><i class="fa-solid fa-message"></i> 💬 Live Chat</button>
+      <button class="btn btn-outline" onclick="showModal('settingsModal')">⚙️ Settings</button>
+      <button class="btn btn-outline" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <div id="authRequired" class="card" style="text-align: center; padding: 60px 20px;">
+    <div style="font-size: 64px; margin-bottom: 20px;">📡</div>
+    <h2 style="margin-bottom: 12px;">Welcome to Sri lanka Dragan cryptocurrency web sniper signal</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 30px;">Advanced Market Scanning & Signal Generation Engine with Pro Volume & RSI Strategies</p>
+    <div style="display: flex; gap: 12px; justify-content: center;">
+      <button class="btn btn-primary" onclick="showModal('signupModal')" style="padding: 14px 32px; font-size: 16px;">Get Started</button>
+      <button class="btn btn-outline" onclick="showModal('loginModal')" style="padding: 14px 32px; font-size: 16px;">Sign In</button>
+    </div>
+  </div>
+
+  <div id="dashboard" class="hidden">
+
+    <!-- MARKET CONDITION WARNING BANNER -->
+    <div id="marketConditionBanner" class="mb-6 p-4 rounded-lg text-center font-bold text-lg hidden"></div>
+
+    <!-- BOT CONTROL (ALWAYS ON 24/7) -->
+    <div class="bot-control" id="botControlPanel">
+      <div class="bot-status bot-running" id="botStatusIndicator">
+        <span class="pulse" style="display: inline-block; background: var(--accent); margin-right: 10px;"></span> 
+        <span>AI Sniper Auto-Scanner Active 24/7 (SMC + Vol + RSI)</span>
+      </div>
+    </div>
+
+    <!-- ================= LIVE SCANNING MONITOR ================= -->
+    <div class="card" style="margin-bottom: 30px; border: 1px solid var(--accent); background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(10, 14, 23, 1) 100%);">
+        <div class="card-header" style="margin-bottom: 10px; padding-bottom: 5px;">
+            <span class="card-title" style="font-size: 14px;"><i class="fa-solid fa-radar"></i> 🔴 Live AI Coin Analysis Monitor (All Markets)</span>
+            <span class="card-badge badge-green"><span class="pulse" style="display:inline-block; margin-right:5px;"></span>SCANNING</span>
+        </div>
+        <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 12px;">මෙම මොහොතේ Market එකේ ඇති සියලුම කොයින් (SMC, Elliott Wave, Scalping) සඳහා විශ්ලේෂණය (Analyze) වෙමින් පවතින අයුරු පහතින් සජීවීව දැකගත හැක.</p>
+        <div class="grid grid-3" style="gap: 10px;">
+            <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 13px; color: var(--accent-purple); border-left: 3px solid var(--accent-purple);">
+                >_ SMC Engine:<br><span id="smcScanCurrent" style="color: white; font-weight: bold; font-size:15px;">Initializing Market Data...</span>
+            </div>
+            <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 13px; color: var(--accent-cyan); border-left: 3px solid var(--accent-cyan);">
+                >_ Elliott Wave Engine:<br><span id="ewScanCurrent" style="color: white; font-weight: bold; font-size:15px;">Initializing Market Data...</span>
+            </div>
+            <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #8b5cf6; border-left: 3px solid #8b5cf6;">
+                >_ Pro Scalping Engine:<br><span id="scalpScanCurrent" style="color: white; font-weight: bold; font-size:15px;">Initializing Market Data...</span>
+            </div>
+        </div>
+    </div>
+    <!-- ================= END LIVE SCANNING MONITOR ================= -->
+
+    <!-- STATS ROW 1: BASIC STATS -->
+    <div class="grid grid-2" style="margin-bottom: 30px;">
+      <div class="card">
+        <div class="stat-label">Total SMC Profit / Loss (Total PNL)</div>
+        <div class="stat-value" id="dailyTotalPnl" style="color: var(--text-primary);">$0.00 / 0.00%</div>
+        <div class="stat-change" style="color: var(--text-secondary);">සියලුම සිග්නල් වල සම්පූර්ණ ලාභ/අලාභය</div>
+        <!-- NEW INJECTED LIVE PROFIT/LOSS DISPLAY FOR CRYPTO SMC -->
+        <div id="smcWinLoss" style="display:flex; justify-content: space-between; margin-top: 15px; font-size: 13px; font-weight: bold; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+            <div style="text-align:center;"><span style="color: var(--text-secondary); font-size:11px; display:block;">Closed Profit</span><span style="color: var(--accent);" id="smcTotalWin">+0.00%</span></div>
+            <div style="text-align:center;"><span style="color: var(--text-secondary); font-size:11px; display:block;">Closed Loss</span><span style="color: var(--accent-red);" id="smcTotalLoss">0.00%</span></div>
+            <div style="text-align:center;"><span style="color: var(--text-secondary); font-size:11px; display:block;">Live Floating</span><span style="color: var(--text-primary);" id="smcLiveFloat">0.00%</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stat-label">System Status</div>
+        <div class="stat-value" style="color: var(--accent-blue);">Active - High Accuracy</div>
+        <div class="stat-change" style="color: var(--text-secondary);">Scanning connected markets 24/7</div>
+      </div>
+    </div>
+
+
+    <!-- ================= 1. CRYPTO SUPER CONTAINER ================= -->
+    <div class="super-container" style="border: 2px solid var(--accent-blue);">
+        <h2 style="color: white; margin-bottom: 25px; font-size: 24px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+            <span style="color: var(--accent-blue);">🪙 CRYPTOCURRENCY</span> MARKET PRO DASHBOARD
+        </h2>
+
+        <!-- NEW: BTC DAILY SUMMARY BOX -->
+        <div class="card" style="margin-bottom: 20px; border-left: 4px solid var(--accent-gold); background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, var(--bg-card) 100%);">
+            <div class="card-header">
+                <span class="card-title">👑 අද දිනට අදාළ සම්පූර්ණ Bitcoin (BTC) වෙළඳපොළ වාර්තාව</span>
+                <button class="btn btn-sm btn-outline" onclick="forceSendSummary('BTC')"><i class="fa-solid fa-paper-plane"></i> Send to Telegram</button>
+            </div>
+            <div id="btcDailySummaryText" style="font-size: 14px; line-height: 1.8; color: var(--text-primary);">දත්ත විශ්ලේෂණය කරමින් පවතී...</div>
+        </div>
+
+        <!-- NEW ADVANCED PRO TOOLS ROW (Fear & Greed, Funding Rate, Countdown) -->
+        <div class="grid grid-3" style="margin-bottom: 20px;">
+          <!-- Fear & Greed Index -->
+          <div class="card" style="border-top: 3px solid var(--accent-purple);">
+            <div class="card-header">
+              <span class="card-title">🧠 Market Sentiment</span>
+              <span class="card-badge badge-purple">LIVE</span>
+            </div>
+            <div class="stat-label">Fear & Greed Index (මානසිකත්වය)</div>
+            <div class="stat-value" id="fngValue" style="font-size: 28px;">Loading...</div>
+            <div class="stat-change" id="fngText" style="color: var(--text-secondary);">දත්ත ලබාගනිමින් පවතී...</div>
+            <div class="meter-container">
+                <div id="fngMeter" class="meter-fill" style="width: 50%; background: var(--text-secondary);"></div>
+            </div>
+          </div>
+
+          <!-- Funding Rate & Open Interest -->
+          <div class="card" style="border-top: 3px solid var(--accent-blue);">
+            <div class="card-header">
+              <span class="card-title">💸 Pro Market Data (BTC)</span>
+              <span class="card-badge badge-blue">BINANCE</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <div>
+                    <div class="stat-label">Funding Rate</div>
+                    <div class="stat-value" id="fundingRateValue" style="font-size: 20px;">0.00%</div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="stat-label">Long/Short අනුපාතය</div>
+                    <div class="stat-value" id="lsRatioValue" style="font-size: 20px;">0.00</div>
+                </div>
+            </div>
+            <div class="stat-change" id="fundingText" style="color: var(--text-secondary); font-size: 12px; line-height: 1.4;">දත්ත ලබාගනිමින් පවතී...</div>
+          </div>
+
+          <!-- Major News Timer Countdown -->
+          <div class="card" style="border-top: 3px solid var(--accent-red);">
+            <div class="card-header">
+              <span class="card-title">⏱️ Major News Timer</span>
+              <span class="card-badge badge-red">ALERT</span>
+            </div>
+            <div class="stat-label" id="newsEventName">මීළඟ ප්‍රධාන ආර්ථික නිවුස් එකට</div>
+            <div class="stat-value newsCountdown" style="font-size: 28px; color: var(--accent-gold);">00:00:00</div>
+            <div class="stat-change" style="color: var(--accent-red); font-size: 12px; margin-top: 8px;">⚠️ මෙම වෙලාවට ට්‍රේඩ් කිරීමෙන් වළකින්න (High Volatility)</div>
+          </div>
+        </div>
+
+        <!-- NEW ADVANCED RISK CALCULATOR -->
+        <div class="card" style="margin-bottom: 20px; border-left: 4px solid var(--accent-cyan);">
+            <div class="card-header">
+                <span class="card-title">🧮 Pro Crypto Risk & Position Size Calculator</span>
+                <span class="card-badge badge-cyan">SMC TOOL</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 15px;">ඔබගේ Stop Loss එකට අනුව හරියටම ගන්න ඕනේ ට්‍රේඩ් සයිස් එක (Quantity) සහ මාර්ජින් එක මෙතනින් ගණනය කරගන්න පුළුවන්.</p>
+            
+            <div class="grid grid-4" style="gap: 15px; margin-bottom: 15px;">
+                <div><label class="form-label">Account Balance ($)</label><input type="number" id="calcBal" class="form-input" value="1000" oninput="calculateRisk()"></div>
+                <div><label class="form-label">Risk % per Trade</label><input type="number" id="calcRisk" class="form-input" value="2" step="0.5" oninput="calculateRisk()"></div>
+                <div><label class="form-label">Entry Price ($)</label><input type="number" id="calcEntry" class="form-input" placeholder="උදා: 65000" oninput="calculateRisk()"></div>
+                <div><label class="form-label">Stop Loss Price ($)</label><input type="number" id="calcSL" class="form-input" placeholder="උදා: 64000" oninput="calculateRisk()"></div>
+                <div><label class="form-label">Leverage (x)</label><input type="number" id="calcLev" class="form-input" value="20" oninput="calculateRisk()"></div>
+            </div>
+
+            <div style="background: rgba(6, 182, 212, 0.1); padding: 15px; border-radius: 8px; border: 1px solid var(--accent-cyan); display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px;">
+                <div style="text-align: center;">
+                    <div style="color: var(--text-secondary); font-size: 12px; text-transform: uppercase;">Amount at Risk (Loss)</div>
+                    <div id="resRiskAmnt" style="font-size: 20px; font-weight: bold; color: var(--accent-red);">$0.00</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="color: var(--text-secondary); font-size: 12px; text-transform: uppercase;">Position Size (Coins)</div>
+                    <div id="resPosSize" style="font-size: 20px; font-weight: bold; color: white;">0.0000</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="color: var(--text-secondary); font-size: 12px; text-transform: uppercase;">Margin Required (USDT)</div>
+                    <div id="resMargin" style="font-size: 20px; font-weight: bold; color: var(--accent-cyan);">$0.00</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOP COINS TO TRADE TODAY -->
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="card-header">
+            <span class="card-title">🚀 අද දින ට්‍රේඩ් කිරීමට හොඳම Top Crypto Coins</span>
+            <span class="card-badge badge-green">LIVE</span>
+          </div>
+          <div id="topCoinsContainer" class="grid grid-4" style="gap: 15px;">
+            <div style="grid-column: span 4; text-align:center; color: var(--text-secondary);">Loading Top Coins...</div>
+          </div>
+        </div>
+
+        <!-- LIVE TRADINGVIEW CHART & SMC ANALYSIS WIDGET -->
+        <div id="chartAndTaGrid" class="grid grid-2" style="margin-bottom: 20px; grid-template-columns: 2fr 1fr;">
+          
+          <!-- CHART -->
+          <div class="card" id="chartCardContainer">
+            <div class="card-header" style="flex-wrap:wrap; gap:10px;">
+              <span class="card-title">📈 Pro Crypto Market Chart</span>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                
+                <!-- PRO SEARCH BAR (Native Datalist approach) -->
+                <input list="coinList" id="chartSymbolSearch" class="form-input" style="width: 180px; font-size: 13px; padding: 8px;" placeholder="🔍 Search Coin (eg: BTC)" onchange="handleCoinSearch(this)">
+                <datalist id="coinList">
+                    <!-- Javascript will populate this with all Binance coins -->
+                </datalist>
+
+                <button class="btn btn-sm btn-gold" onclick="toggleFullScreen('chartCardContainer')" title="Full Screen">⛶ Fullscreen</button>
+              </div>
+            </div>
+            
+            <!-- විශාල කරන ලද Crypto Chart එක -->
+            <div id="tv_chart_container" style="height: 750px; width: 100%; border-radius: 8px; overflow: hidden; background: #111827;"></div>
+          </div>
+
+          <!-- SMC AI ANALYSIS SECTION (WITH MULTIPLE SIGNALS) -->
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+              <div class="card" style="border-left: 4px solid var(--accent-purple); display: flex; flex-direction: column; flex: 1;">
+                <div class="card-header" style="margin-bottom: 0;">
+                  <span class="card-title">🧠 Active Crypto SMC Signals</span>
+                  <span class="card-badge badge-purple">AI ENGINE</span>
+                </div>
+                
+                <div id="smcSignalStatusBanner" style="text-align: center; font-weight: bold; font-size: 13px; padding: 8px; border-radius: 6px; margin: 10px 0; background: rgba(16, 185, 129, 0.2); color: var(--accent);">
+                    <span class="pulse" style="display:inline-block; margin-right:8px;"></span> Live Signals Active: 0/6
+                </div>
+
+                <!-- Scrollable Active Signal List -->
+                <div id="smcAnalysisContainer" style="flex: 1; overflow-y: auto; line-height: 1.6; font-size: 14px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; max-height: 500px;">
+                  <!-- Signals will be generated here -->
+                </div>
+              </div>
+
+              <!-- COMPLETED SIGNALS SECTION (NEW WITH TABS) -->
+              <div class="card" style="border-left: 4px solid var(--accent-gold); display: flex; flex-direction: column; flex: 1;">
+                <div class="card-header" style="margin-bottom: 10px;">
+                  <span class="card-title">📜 අවසන් වූ සිග්නල් History</span>
+                  <span class="card-badge badge-gold">SAVED</span>
+                </div>
+                
+                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                    <button class="btn btn-sm btn-outline" id="btnProfits" onclick="toggleHistoryView('profits')" style="flex:1; background: rgba(16, 185, 129, 0.2); border-color: var(--accent); color: var(--accent);">🏆 Profits</button>
+                    <button class="btn btn-sm btn-outline" id="btnLosses" onclick="toggleHistoryView('losses')" style="flex:1;">❌ Losses</button>
+                </div>
+                
+                <div id="completedProfitsContainer" style="flex: 1; overflow-y: auto; line-height: 1.6; font-size: 14px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; max-height: 300px;">
+                  <div style="text-align: center; color: var(--text-secondary); padding: 20px;">Profit සිග්නල් නොමැත</div>
+                </div>
+                <div id="completedLossesContainer" class="hidden" style="flex: 1; overflow-y: auto; line-height: 1.6; font-size: 14px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; max-height: 300px;">
+                  <div style="text-align: center; color: var(--text-secondary); padding: 20px;">Loss සිග්නල් නොමැත</div>
+                </div>
+              </div>
+          </div>
+        </div>
+
+        <!-- CRYPTO BUBBLES SECTION -->
+        <div class="card" id="bubblesCardContainer" style="margin-bottom: 20px;">
+          <div class="card-header">
+            <span class="card-title">🫧 Crypto Bubbles (Live Market Overview)</span>
+            <button class="btn btn-sm btn-gold" onclick="toggleFullScreen('bubblesCardContainer')" title="Full Screen">⛶ Fullscreen</button>
+          </div>
+          <div id="bubbles_container" style="height: 600px; width: 100%; border-radius: 8px; overflow: hidden; background: #111827;">
+            <iframe src="https://cryptobubbles.net/" style="width: 100%; height: 100%; border: none;"></iframe>
+          </div>
+        </div>
+
+        <!-- TREND & NEWS ROW (Crypto Only) -->
+        <div class="grid grid-2" style="margin-bottom: 20px;">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📊 Live Crypto Market Trend</span>
+              <span class="card-badge badge-blue">LIVE</span>
+            </div>
+            <div id="marketTrendContainer" style="height: 300px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border-radius: 8px;">
+              <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                <div class="pulse" style="display:inline-block; width:12px; height:12px; background:var(--accent-blue); border-radius:50%; margin-bottom: 10px;"></div>
+                <p>Analyzing market trends...</p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📰 Live Crypto News (සිංහල)</span>
+              <span class="card-badge badge-gold">LIVE</span>
+            </div>
+            <div id="cryptoNewsContainer" style="max-height: 300px; overflow-y: auto; padding-right: 5px;">
+              <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                <div class="pulse" style="display:inline-block; width:12px; height:12px; background:var(--accent-gold); border-radius:50%; margin-bottom: 10px;"></div>
+                <p>Loading real-time crypto news...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- ================= END CRYPTO SUPER CONTAINER ================= -->
+
+
+    <!-- ================= 2. FOREX & GOLD SUPER CONTAINER ================= -->
+    <div class="super-container" style="border: 2px solid var(--accent-gold);">
+        <h2 style="color: white; margin-bottom: 25px; font-size: 24px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+            <span style="color: var(--accent-gold);">🏆 FOREX & GOLD (XAU/USD)</span> PRO DASHBOARD
+        </h2>
+
+        <!-- NEW: GOLD DAILY SUMMARY BOX -->
+        <div class="card" style="margin-bottom: 20px; border-left: 4px solid #facc15; background: linear-gradient(135deg, rgba(250, 204, 21, 0.05) 0%, var(--bg-card) 100%);">
+            <div class="card-header">
+                <span class="card-title">👑 අද දිනට අදාළ සම්පූර්ණ Gold (XAU/USD) වෙළඳපොළ වාර්තාව</span>
+                <button class="btn btn-sm btn-outline" onclick="forceSendSummary('GOLD')"><i class="fa-solid fa-paper-plane"></i> Send to Telegram</button>
+            </div>
+            <div id="goldDailySummaryText" style="font-size: 14px; line-height: 1.8; color: var(--text-primary);">දත්ත විශ්ලේෂණය කරමින් පවතී...</div>
+        </div>
+
+        <!-- Forex Tools Row -->
+        <div class="grid grid-3" style="margin-bottom: 20px;">
+          <!-- Forex Volatility / Sentiment -->
+          <div class="card" style="border-top: 3px solid var(--accent-purple);">
+            <div class="card-header">
+              <span class="card-title">🧠 Market Sentiment (Forex)</span>
+              <span class="card-badge badge-purple">LIVE</span>
+            </div>
+            <div class="stat-label">Forex Volatility Index (VIX)</div>
+            <div class="stat-value" id="forexVixValue" style="font-size: 28px;">Loading...</div>
+            <div class="stat-change" id="forexVixText" style="color: var(--text-secondary);">දත්ත ලබාගනිමින් පවතී...</div>
+            <div class="meter-container">
+                <div id="forexVixMeter" class="meter-fill" style="width: 50%; background: var(--text-secondary);"></div>
+            </div>
+          </div>
+
+          <!-- Forex Pro Market Data -->
+          <div class="card" style="border-top: 3px solid var(--accent-blue);">
+            <div class="card-header">
+              <span class="card-title">💸 Pro Market Data (Gold/Forex)</span>
+              <span class="card-badge badge-blue">GLOBAL</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <div>
+                    <div class="stat-label">Retail Buy Ratio</div>
+                    <div class="stat-value" id="forexFundingValue" style="font-size: 20px;">0.00%</div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="stat-label">Long/Short අනුපාතය</div>
+                    <div class="stat-value" id="forexLsRatioValue" style="font-size: 20px;">0.00</div>
+                </div>
+            </div>
+            <div class="stat-change" id="forexFundingText" style="color: var(--text-secondary); font-size: 12px; line-height: 1.4;">දත්ත ලබාගනිමින් පවතී...</div>
+          </div>
+
+          <!-- Forex Major News Timer Countdown -->
+          <div class="card" style="border-top: 3px solid var(--accent-red);">
+            <div class="card-header">
+              <span class="card-title">⏱️ Major News Timer (Forex)</span>
+              <span class="card-badge badge-red">ALERT</span>
+            </div>
+            <div class="stat-label">මීළඟ ප්‍රධාන ආර්ථික නිවුස් එකට</div>
+            <div class="stat-value newsCountdown" style="font-size: 28px; color: var(--accent-gold);">00:00:00</div>
+            <div class="stat-change" style="color: var(--accent-red); font-size: 12px; margin-top: 8px;">⚠️ Forex News වෙලාවට ට්‍රේඩ් කිරීමෙන් වළකින්න</div>
+          </div>
+        </div>
+
+        <!-- FOREX RISK CALCULATOR (Lot Size) -->
+        <div class="card" style="margin-bottom: 20px; border-left: 4px solid var(--accent-cyan);">
+            <div class="card-header">
+                <span class="card-title">🧮 Pro Forex Risk & Lot Size Calculator</span>
+                <span class="card-badge badge-cyan">SMC TOOL</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 15px;">ඔබගේ Stop Loss එකට අනුව හරියටම ගන්න ඕනේ Lot Size එක මෙතනින් ගණනය කරගන්න පුළුවන්.</p>
+            
+            <div class="grid grid-4" style="gap: 15px; margin-bottom: 15px;">
+                <div><label class="form-label">Account Balance ($)</label><input type="number" id="calcBalFx" class="form-input" value="1000" oninput="calculateForexRisk()"></div>
+                <div><label class="form-label">Risk % per Trade</label><input type="number" id="calcRiskFx" class="form-input" value="1" step="0.5" oninput="calculateForexRisk()"></div>
+                <div><label class="form-label">Stop Loss (Pips)</label><input type="number" id="calcPipsFx" class="form-input" value="20" oninput="calculateForexRisk()"></div>
+                <div><label class="form-label">Pip Value ($)</label><input type="number" id="calcPipValFx" class="form-input" value="10" title="Standard Lot Pip Value" oninput="calculateForexRisk()"></div>
+            </div>
+
+            <div style="background: rgba(6, 182, 212, 0.1); padding: 15px; border-radius: 8px; border: 1px solid var(--accent-cyan); display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px;">
+                <div style="text-align: center;">
+                    <div style="color: var(--text-secondary); font-size: 12px; text-transform: uppercase;">Amount at Risk</div>
+                    <div id="resRiskAmntFx" style="font-size: 20px; font-weight: bold; color: var(--accent-red);">$0.00</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="color: var(--text-secondary); font-size: 12px; text-transform: uppercase;">Recommended Lot Size</div>
+                    <div id="resLotSizeFx" style="font-size: 20px; font-weight: bold; color: white;">0.00 Lots</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOP FOREX PAIRS TO TRADE TODAY -->
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="card-header">
+            <span class="card-title">🚀 අද දින ට්‍රේඩ් කිරීමට හොඳම Major Forex Pairs</span>
+            <span class="card-badge badge-gold">LIVE</span>
+          </div>
+          <div class="grid grid-4" style="gap: 15px;">
+            <div class="card" style="padding: 15px; border-color: var(--accent-gold); background: linear-gradient(135deg, var(--bg-card) 0%, rgba(245, 158, 11, 0.1) 100%); cursor: pointer;" onclick="updateForexChart('OANDA:XAUUSD')">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;"><div style="font-weight: 800; font-size: 18px; color: white;">XAU/USD</div><div class="positive font-bold text-lg">Volatile</div></div>
+                <div style="color: var(--text-secondary); font-size: 12px; margin-bottom: 8px;">Gold vs US Dollar</div>
+            </div>
+            <div class="card" style="padding: 15px; border-color: var(--border); background: var(--bg-hover); cursor: pointer;" onclick="updateForexChart('OANDA:EURUSD')">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;"><div style="font-weight: 800; font-size: 18px; color: white;">EUR/USD</div><div class="text-secondary font-bold text-lg">Stable</div></div>
+                <div style="color: var(--text-secondary); font-size: 12px; margin-bottom: 8px;">Euro vs US Dollar</div>
+            </div>
+            <div class="card" style="padding: 15px; border-color: var(--border); background: var(--bg-hover); cursor: pointer;" onclick="updateForexChart('OANDA:GBPUSD')">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;"><div style="font-weight: 800; font-size: 18px; color: white;">GBP/USD</div><div class="text-secondary font-bold text-lg">Active</div></div>
+                <div style="color: var(--text-secondary); font-size: 12px; margin-bottom: 8px;">British Pound vs USD</div>
+            </div>
+            <div class="card" style="padding: 15px; border-color: var(--border); background: var(--bg-hover); cursor: pointer;" onclick="updateForexChart('OANDA:USDJPY')">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;"><div style="font-weight: 800; font-size: 18px; color: white;">USD/JPY</div><div class="text-secondary font-bold text-lg">Active</div></div>
+                <div style="color: var(--text-secondary); font-size: 12px; margin-bottom: 8px;">US Dollar vs Yen</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LIVE TRADINGVIEW CHART & SMC ANALYSIS WIDGET (FOREX) -->
+        <div id="goldChartAndTaGrid" class="grid grid-2" style="margin-bottom: 20px; grid-template-columns: 2fr 1fr;">
+            
+            <!-- FOREX CHART -->
+            <div class="card" id="goldChartCardContainer">
+                <div class="card-header" style="flex-wrap:wrap; gap:10px;">
+                    <span class="card-title">📈 Pro Forex & Gold Market Chart</span>
+                    <button class="btn btn-sm btn-gold" onclick="toggleFullScreen('goldChartCardContainer')">⛶ Fullscreen</button>
+                </div>
+                <!-- විශාල කරන ලද Forex Chart එක -->
+                <div id="gold_chart_container" style="height: 750px; width: 100%; border-radius: 8px; overflow: hidden; background: #111827;"></div>
+            </div>
+            
+            <!-- FOREX SMC AI ANALYSIS SECTION -->
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                
+                <!-- FOREX PNL & Daily Update -->
+                <div class="card" style="background: rgba(245, 158, 11, 0.1); border: 1px solid var(--accent-gold); padding: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(245,158,11,0.2); padding-bottom: 10px; margin-bottom: 10px;">
+                        <div style="font-size: 13px; color: var(--text-secondary); font-weight: bold;">Total Gold / Forex PNL:</div>
+                        <div id="forexDailyPnl" style="font-size: 18px; font-weight: 800; color: var(--text-primary);">$0.00 / 0.00%</div>
+                    </div>
+                    <!-- NEW INJECTED LIVE PROFIT/LOSS DISPLAY FOR GOLD -->
+                    <div style="display:flex; justify-content: space-between; margin-bottom: 15px; font-size: 13px; font-weight: bold; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">
+                        <div style="text-align:center;"><span style="color: var(--text-secondary); font-size:11px; display:block;">Profit</span><span style="color: var(--accent);" id="goldTotalWin">+0.00%</span></div>
+                        <div style="text-align:center;"><span style="color: var(--text-secondary); font-size:11px; display:block;">Loss</span><span style="color: var(--accent-red);" id="goldTotalLoss">0.00%</span></div>
+                        <div style="text-align:center;"><span style="color: var(--text-secondary); font-size:11px; display:block;">Live Floating</span><span style="color: var(--text-primary);" id="goldLiveFloat">0.00%</span></div>
+                    </div>
+                    <h4 style="color: var(--accent-gold); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                        <span class="pulse" style="background: var(--accent-gold); display: inline-block;"></span> Market Overview
+                    </h4>
+                    <div id="goldDailyUpdate" style="font-size: 13px; color: var(--text-primary); line-height: 1.6;">Market දත්ත විශ්ලේෂණය කරමින් පවතී...</div>
+                </div>
+
+                <!-- Active Signal -->
+                <div class="card" style="border-left: 4px solid var(--accent-gold); padding: 15px; display: flex; flex-direction: column;">
+                    <h4 style="color: var(--accent-gold); margin-bottom: 8px;">🎯 Active XAU/USD Signal</h4>
+                    <div id="goldSmcContainer">
+                        <!-- Active Gold Signal will be injected here -->
+                    </div>
+                </div>
+
+                <!-- History -->
+                <div class="card" style="border-left: 4px solid var(--border); padding: 15px; display: flex; flex-direction: column; flex: 1;">
+                    <h4 style="color: var(--text-primary); margin-bottom: 8px;">📜 Gold Trade History</h4>
+                    <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                        <button class="btn btn-sm btn-outline" id="btnFxProfits" onclick="toggleFxHistory('profits')" style="flex:1; background: rgba(16, 185, 129, 0.2); border-color: var(--accent); color: var(--accent);">🏆 Profits</button>
+                        <button class="btn btn-sm btn-outline" id="btnFxLosses" onclick="toggleFxHistory('losses')" style="flex:1;">❌ Losses</button>
+                    </div>
+                    <div id="fxProfitsContainer" style="flex: 1; overflow-y: auto; line-height: 1.6; font-size: 14px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; max-height: 250px;"></div>
+                    <div id="fxLossesContainer" class="hidden" style="flex: 1; overflow-y: auto; line-height: 1.6; font-size: 14px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; max-height: 250px;"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Forex News Row -->
+        <div class="card" style="margin-bottom: 20px;">
+            <div class="card-header">
+              <span class="card-title">🏭 Live Forex Factory News (සිංහල)</span>
+              <span class="card-badge badge-gold">LIVE</span>
+            </div>
+            <div id="forexNewsContainer" style="max-height: 300px; overflow-y: auto; padding-right: 5px;">
+              <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                <div class="pulse" style="display:inline-block; width:12px; height:12px; background:var(--accent-gold); border-radius:50%; margin-bottom: 10px;"></div>
+                <p>Loading real-time forex news...</p>
+              </div>
+            </div>
+        </div>
+    </div>
+    <!-- ================= END FOREX & GOLD SUPER CONTAINER ================= -->
+
+    <!-- ================= 3. ELLIOTT WAVE PRO SUPER CONTAINER ================= -->
+    <div class="super-container" style="border: 2px solid var(--accent-cyan); box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);">
+        <h2 style="color: white; margin-bottom: 25px; font-size: 24px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+            <span style="color: var(--accent-cyan);">🌊 ELLIOTT WAVE PRO</span> AI STRATEGY (Crypto & Forex)
+        </h2>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">ලොව ප්‍රමුඛතම Institutional Traders ලා භාවිතා කරන Elliott Wave Theory මත පදනම්ව, Fibonacci Extensions සහ Corrections විශ්ලේෂණය කරමින් ලබාදෙන දෛනික අතිශය නිරවද්‍ය (High Probability) සිග්නල් මෙතැනින් ලබාගත හැක. දිනකට ලබාදෙන්නේ උපරිම සිග්නල් 6ක් පමණි. Stop Loss ඉතා කුඩාවට සහ Entry එකට (Breakeven) ඉක්මනින් මාරුවන පරිදි සකසා ඇත.</p>
+
+        <!-- EW PNL Row -->
+        <div class="card" style="margin-bottom: 20px; background: rgba(6, 182, 212, 0.05); border: 1px solid var(--accent-cyan);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(6, 182, 212, 0.2); padding-bottom: 10px; margin-bottom: 10px;">
+                <div style="font-size: 13px; color: var(--text-secondary); font-weight: bold; text-transform: uppercase;">Total Elliott Wave PNL:</div>
+                <div id="ewDailyPnl" style="font-size: 22px; font-weight: 800; color: var(--text-primary);">$0.00 / 0.00%</div>
+            </div>
+            <!-- NEW INJECTED LIVE PROFIT/LOSS DISPLAY FOR EW -->
+            <div style="display:flex; justify-content: space-around; margin-bottom: 10px; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px;">
+                <div style="text-align:center;"><span style="color: var(--text-secondary); font-size:11px; display:block; text-transform:uppercase;">Total Profit</span><span style="color: var(--accent);" id="ewTotalWin">+0.00%</span></div>
+                <div style="text-align:center;"><span style="color: var(--text-secondary); font-size:11px; display:block; text-transform:uppercase;">Total Loss</span><span style="color: var(--accent-red);" id="ewTotalLoss">0.00%</span></div>
+                <div style="text-align:center;"><span style="color: var(--text-secondary); font-size:11px; display:block; text-transform:uppercase;">Live Floating</span><span style="color: var(--text-primary);" id="ewLiveFloat">0.00%</span></div>
+            </div>
+            <div class="stat-change" style="color: var(--text-secondary); font-size: 12px;">සියලුම Elliott Wave සිග්නල් මගින් ලබාගත් සම්පූර්ණ ලාභය සහ ප්‍රතිශතය. (සියලුම දත්ත ඔබගේ Browser එකේ ස්වයංක්‍රීයව Save වේ)</div>
+        </div>
+        
+        <div class="grid grid-2" style="grid-template-columns: 2fr 1fr; gap: 20px;">
+            <!-- Active EW Signals -->
+            <div class="card" style="border-left: 4px solid var(--accent-cyan); display: flex; flex-direction: column;">
+                <div class="card-header" style="margin-bottom: 10px;">
+                    <span class="card-title">🎯 Active Elliott Wave Signals</span>
+                    <span class="card-badge badge-cyan" id="ewSignalCount">0/6</span>
+                </div>
+                <div id="ewSignalsContainer" style="flex: 1; max-height: 600px; overflow-y: auto; padding-right: 10px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                    <!-- Elliott wave signals injected here -->
+                </div>
+            </div>
+
+            <!-- EW History -->
+            <div class="card" style="border-left: 4px solid var(--accent-purple); display: flex; flex-direction: column;">
+                <div class="card-header" style="margin-bottom: 10px;">
+                    <span class="card-title">📜 Elliott Wave History</span>
+                </div>
+                <div style="display: flex; gap: 5px; margin-bottom: 15px;">
+                    <button class="btn btn-sm btn-outline" onclick="toggleEwHistory('profits')" id="btnEwProfits" style="flex:1; background: rgba(16, 185, 129, 0.2); border-color: var(--accent); color: var(--accent);">🏆 Profits</button>
+                    <button class="btn btn-sm btn-outline" onclick="toggleEwHistory('losses')" id="btnEwLosses" style="flex:1;">❌ Losses</button>
+                </div>
+                <div id="ewProfitsContainer" style="flex: 1; overflow-y: auto; max-height: 500px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;"></div>
+                <div id="ewLossesContainer" class="hidden" style="flex: 1; overflow-y: auto; max-height: 500px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;"></div>
+            </div>
+        </div>
+    </div>
+    <!-- ================= END ELLIOTT WAVE SUPER CONTAINER ================= -->
+
+    <!-- ================= 4. PRO SCALPING SUPER CONTAINER (NEW) ================= -->
+    <div class="super-container" style="border: 2px solid #8b5cf6; box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);">
+        <h2 style="color: white; margin-bottom: 25px; font-size: 24px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+            <span style="color: #8b5cf6;">⚡ PRO SCALPING AI</span> STRATEGY (1M / 5M TIMEFRAME)
+        </h2>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">ලොව ප්‍රමුඛතම Scalpers ලා භාවිතා කරන <strong>EMA 9/21 Crossover, RSI Momentum සහ Volume Spikes</strong> මත පදනම් වූ අතිශය වේගවත් (Fast execution) සිග්නල් මෙතැනින් ලබාදේ. දිනකට සිග්නල් 20ක් පමණක් ලබාදෙන අතර, <strong>එක් වරකට සිග්නල් 6ක් දක්වා</strong> Active විය හැක. නව සිග්නල් එකක් පැමිණි විට පරණ සිග්නල් එක ස්වයංක්‍රීයව අයින් වී History එකට එකතු වේ.</p>
+
+        <!-- Scalping PNL Row -->
+        <div class="card" style="margin-bottom: 20px; background: rgba(139, 92, 246, 0.05); border: 1px solid #8b5cf6;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(139, 92, 246, 0.2); padding-bottom: 10px; margin-bottom: 10px;">
+                <div style="font-size: 13px; color: var(--text-secondary); font-weight: bold; text-transform: uppercase;">Total Scalping PNL:</div>
+                <div id="scalpDailyPnl" style="font-size: 22px; font-weight: 800; color: var(--text-primary);">$0.00 / 0.00%</div>
+            </div>
+            <!-- NEW INJECTED LIVE PROFIT/LOSS DISPLAY FOR SCALPING -->
+            <div style="display:flex; justify-content: space-around; margin-bottom: 10px; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px;">
+                <div style="text-align:center;"><span style="color: var(--text-secondary); font-size:11px; display:block; text-transform:uppercase;">Total Profit</span><span style="color: var(--accent);" id="scalpTotalWin">+0.00%</span></div>
+                <div style="text-align:center;"><span style="color: var(--text-secondary); font-size:11px; display:block; text-transform:uppercase;">Total Loss</span><span style="color: var(--accent-red);" id="scalpTotalLoss">0.00%</span></div>
+                <div style="text-align:center;"><span style="color: var(--text-secondary); font-size:11px; display:block; text-transform:uppercase;">Live Floating</span><span style="color: var(--text-primary);" id="scalpLiveFloat">0.00%</span></div>
+            </div>
+            <div class="stat-change" style="color: var(--text-secondary); font-size: 12px;">සියලුම Scalping සිග්නල් මගින් ලබාගත් සම්පූර්ණ ලාභය සහ ප්‍රතිශතය. (සියලුම දත්ත ඔබගේ Browser එකේ ස්වයංක්‍රීයව Save වේ)</div>
+        </div>
+        
+        <div class="grid grid-2" style="grid-template-columns: 2fr 1fr; gap: 20px;">
+            <!-- Active Scalping Signals -->
+            <div class="card" style="border-left: 4px solid #8b5cf6; display: flex; flex-direction: column;">
+                <div class="card-header" style="margin-bottom: 10px;">
+                    <span class="card-title">⚡ Active Scalping Signal</span>
+                    <span class="card-badge badge-purple" id="scalpSignalCount">0/6</span>
+                </div>
+                <div id="scalpSignalsContainer" style="flex: 1; max-height: 600px; overflow-y: auto; padding-right: 10px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                    <!-- Scalping wave signals injected here -->
+                </div>
+            </div>
+
+            <!-- Scalping History -->
+            <div class="card" style="border-left: 4px solid var(--border); display: flex; flex-direction: column;">
+                <div class="card-header" style="margin-bottom: 10px;">
+                    <span class="card-title">📜 Scalping History</span>
+                </div>
+                <div style="display: flex; gap: 5px; margin-bottom: 15px;">
+                    <button class="btn btn-sm btn-outline" onclick="toggleScalpHistory('profits')" id="btnScalpProfits" style="flex:1; background: rgba(16, 185, 129, 0.2); border-color: var(--accent); color: var(--accent);">🏆 Profits</button>
+                    <button class="btn btn-sm btn-outline" onclick="toggleScalpHistory('losses')" id="btnScalpLosses" style="flex:1;">❌ Losses</button>
+                </div>
+                <div id="scalpProfitsContainer" style="flex: 1; overflow-y: auto; max-height: 500px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;"></div>
+                <div id="scalpLossesContainer" class="hidden" style="flex: 1; overflow-y: auto; max-height: 500px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;"></div>
+            </div>
+        </div>
+    </div>
+    <!-- ================= END SCALPING SUPER CONTAINER ================= -->
+
+    <!-- CONFIGURATION ONLY -->
+    <div class="card" style="margin-bottom: 20px;">
+      <div class="card-header">
+        <span class="card-title">⚙️ Scanner Configuration</span>
+        <button class="btn btn-sm btn-outline" onclick="showModal('settingsModal')">Edit</button>
+      </div>
+      <div class="grid grid-3">
+        <div class="config-row">
+          <span class="config-label">RR Target Calculation</span>
+          <span class="config-value" id="configRR">1:5</span>
+        </div>
+        <div class="config-row">
+          <span class="config-label">Scan Timeframe</span>
+          <span class="config-value" id="configTimeframe">5m</span>
+        </div>
+        <div class="config-row">
+          <span class="config-label">Telegram Alerts</span>
+          <span class="config-value" id="configToken">Enabled</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= COMMUNITY CHAT UI ================= -->
+<div class="chat-widget" id="chatWidget">
+    <div class="chat-header">
+        <div class="chat-header-title">
+            💬 Pro Traders Community
+            <div class="chat-header-subtitle"><span class="pulse" style="display:inline-block; width:8px; height:8px; background:var(--accent); border-radius:50%;"></span> <span id="onlineMembersCount">1</span> Online</div>
+        </div>
+        <button class="close-btn" onclick="toggleChat()">&times;</button>
+    </div>
+    
+    <div class="chat-messages" id="chatMessagesArea"></div>
+    
+    <div class="sticker-panel" id="stickerPanel">
+        <img src="https://media.giphy.com/media/trN9ht5RlE3Dcwavg2/giphy.gif" class="sticker-item" onclick="sendChatMessage(this.src, 'sticker')">
+        <img src="https://media.giphy.com/media/JtBZm3Getg3dynxEXvX/giphy.gif" class="sticker-item" onclick="sendChatMessage(this.src, 'sticker')">
+        <img src="https://media.giphy.com/media/LdOyjZ7io5Msw/giphy.gif" class="sticker-item" onclick="sendChatMessage(this.src, 'sticker')">
+        <img src="https://media.giphy.com/media/Y2ZUWLrTy63j9T6qrK/giphy.gif" class="sticker-item" onclick="sendChatMessage(this.src, 'sticker')">
+        <img src="https://media.giphy.com/media/VTxmwaCEwSlZm/giphy.gif" class="sticker-item" onclick="sendChatMessage(this.src, 'sticker')">
+        <img src="https://media.giphy.com/media/tXLpxypfSXvUc/giphy.gif" class="sticker-item" onclick="sendChatMessage(this.src, 'sticker')">
+        <img src="https://media.giphy.com/media/3oKIPa2TdahYIGANYI/giphy.gif" class="sticker-item" onclick="sendChatMessage(this.src, 'sticker')">
+        <img src="https://media.giphy.com/media/lptjRBxFKCJmFoibP3/giphy.gif" class="sticker-item" onclick="sendChatMessage(this.src, 'sticker')">
+    </div>
+    
+    <div class="chat-input-area">
+        <button class="chat-btn" onclick="toggleStickers()">😀</button>
+        <input type="text" class="chat-input" id="chatInputText" placeholder="Type a message (සිංහල/English)..." onkeypress="if(event.key === 'Enter') sendChatMessage()">
+        <button class="chat-btn" style="color: var(--accent);" onclick="sendChatMessage()">➤</button>
+    </div>
+</div>
+
+<!-- MODALS -->
+
+<div class="modal-overlay" id="signupModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">🎯 Create Account</h3>
+      <button class="close-btn" onclick="hideModal('signupModal')">&times;</button>
+    </div>
+    <form onsubmit="handleSignup(event)">
+      <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-input" id="signupName" placeholder="John Doe" required></div>
+      <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="signupEmail" placeholder="you@example.com" required></div>
+      <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" id="signupPassword" placeholder="Min 8 characters" required minlength="8"></div>
+      <div class="form-group"><label class="form-label">Confirm Password</label><input type="password" class="form-input" id="signupConfirm" placeholder="Repeat password" required></div>
+      <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">Create Account</button>
+      <p style="text-align: center; margin-top: 16px; color: var(--text-secondary); font-size: 13px;">Already have an account? <a href="#" onclick="hideModal('signupModal'); showModal('loginModal'); return false;" style="color: var(--accent);">Sign In</a></p>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">🔐 Sign In</h3>
+      <button class="close-btn" onclick="hideModal('loginModal')">&times;</button>
+    </div>
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="loginEmail" placeholder="you@example.com" required></div>
+      <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" id="loginPassword" placeholder="Your password" required></div>
+      <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">Sign In</button>
+      <p style="text-align: center; margin-top: 16px; color: var(--text-secondary); font-size: 13px;">Don't have an account? <a href="#" onclick="hideModal('loginModal'); showModal('signupModal'); return false;" style="color: var(--accent);">Sign Up</a></p>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal" style="max-width: 700px;">
+    <div class="modal-header">
+      <h3 class="modal-title">⚙️ Scanner Settings</h3>
+      <button class="close-btn" onclick="hideModal('settingsModal')">&times;</button>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('tab-telegram')">Telegram Alerts</button>
+      <button class="tab" onclick="switchTab('tab-sniper')">Signal Engine</button>
+    </div>
+    <div id="tab-telegram" class="tab-content active">
+      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">ඔබට අවශ්‍ය Telegram Channel එකකට හෝ Group එකකට සිග්නල් ලබාගැනීම සඳහා ඔබගේ Bot Token එක සහ Chat ID එක මෙතනින් ලබා දෙන්න.</p>
+      <div class="form-group"><label class="form-label">Telegram Bot Token</label><input type="text" class="form-input" id="settingTelegramToken" placeholder="උදා: 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"><p style="font-size: 12px; color: var(--text-secondary); margin-top: 6px;">Get this from @BotFather on Telegram</p></div>
+      <div class="form-group"><label class="form-label">Chat ID</label><input type="text" class="form-input" id="settingChatId" placeholder="උදා: -1001234567890"></div>
+      <button class="btn btn-primary" onclick="saveSettings()" style="width: 100%;">Save Telegram Settings</button>
+    </div>
+    <div id="tab-sniper" class="tab-content" style="display: none;">
+      <div class="grid grid-2" style="grid-template-columns: 1fr 1fr;">
+        <div class="form-group"><label class="form-label">Min Confluence (%)</label><input type="number" class="form-input" id="settingConfluence" value="85" min="50" max="95"></div>
+        <div class="form-group"><label class="form-label">RR Target</label><input type="number" class="form-input" id="settingRR" value="5" min="1" max="20" step="0.5"></div>
+        <div class="form-group"><label class="form-label">Timeframe</label><select class="form-input" id="settingTimeframe"><option value="1m">1m</option><option value="5m" selected>5m</option><option value="15m">15m</option><option value="1h">1h</option></select></div>
+        <div class="form-group"><label class="form-label">Min Volume Ratio</label><input type="number" class="form-input" id="settingVolume" value="2.0" min="1" max="5" step="0.1"></div>
+      </div>
+      <button class="btn btn-primary" onclick="saveSettings()" style="width: 100%; margin-top: 16px;">Save Engine Settings</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon">✅</span>
+  <span id="toastMessage">Operation successful</span>
+</div>
+
+<script>
+// ================= TAB SWITCHING LOGIC =================
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+    document.getElementById(tabId).style.display = 'block';
+    if(event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    } else {
+        const btn = document.querySelector(`button[onclick="switchTab('${tabId}')"]`);
+        if(btn) btn.classList.add('active');
+    }
+}
+
+// ================= SETTINGS SAVE LOGIC =================
+function saveSettings() {
+    settings.telegramToken = document.getElementById('settingTelegramToken').value.trim();
+    settings.chatId = document.getElementById('settingChatId').value.trim();
+    settings.minConfluence = parseInt(document.getElementById('settingConfluence').value) || 85;
+    settings.rrTarget = parseFloat(document.getElementById('settingRR').value) || 5;
+    settings.timeframe = document.getElementById('settingTimeframe').value || '5m';
+    settings.minVolumeRatio = parseFloat(document.getElementById('settingVolume').value) || 2.0;
+    
+    localStorage.setItem('sniper_settings_signal', JSON.stringify(settings));
+    hideModal('settingsModal');
+    showToast("Settings Saved Successfully!");
+}
+
+// ================= TELEGRAM AUTO POST LOGIC (LIVE TRADE UPDATES) =================
+async function sendToTelegram(setupData, strategyName) {
+    if (!settings.telegramToken || !settings.chatId) return; 
+
+    const messageText = `
+🎯 NEW PRO SIGNAL DETECTED 🎯
+💎 Strategy: ${strategyName}
+🪙 Coin: ${setupData.symbol}
+📈 Direction: ${setupData.direction}
+
+🟢 Entry Price: $${setupData.entry.toFixed(4)}
+🛑 Stop Loss: $${setupData.sl.toFixed(4)}
+
+✅ TP 1: $${setupData.tp1.toFixed(4)}
+✅ TP 2: $${setupData.tp2.toFixed(4)}
+🚀 Max Target: $${setupData.tp3.toFixed(4)}
+
+#CryptoSignals #Trading #Binance
+    `;
+
+    const url = `https://api.telegram.org/bot${settings.telegramToken}/sendMessage`;
+    try {
+        await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                chat_id: settings.chatId,
+                text: messageText
+            })
+        });
+    } catch (e) {}
+}
+
+async function sendTradeUpdate(sig, strategy, eventType) {
+    if (!settings.telegramToken || !settings.chatId) return;
+    let emoji = "🔔";
+    if(eventType.includes("TP")) emoji = "✅";
+    if(eventType.includes("Stop Loss") || eventType.includes("❌")) emoji = "❌";
+    if(eventType.includes("Closed") || eventType.includes("Secured")) emoji = "🚀";
+
+    const msg = `${emoji} **${strategy} UPDATE** ${emoji}\n🪙 Coin: ${sig.symbol} (${sig.direction})\n📊 Event: ${eventType}\n💰 Live Price: $${sig.currentPrice.toFixed(4)}\n📈 ROI: ${sig.roi.toFixed(2)}%\n\n📝 Note: ${sig.message}`;
+
+    const url = `https://api.telegram.org/bot${settings.telegramToken}/sendMessage`;
+    try {
+        await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ chat_id: settings.chatId, text: msg }) });
+    } catch(e) {}
+}
+
+// SEND DAILY SUMMARY TO TELEGRAM
+async function sendDailySummaryToTelegram(market, htmlText) {
+    if (!settings.telegramToken || !settings.chatId) return;
+    
+    let plainText = htmlText.replace(/<br\s*[\/]?>/gi, "\n").replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ');
+    const messageText = `📊 **අද දින ${market} වෙළඳපොළ වාර්තාව** 📊\n\n${plainText}\n\n#DailyUpdate #Trading #SniperPro`;
+    
+    const url = `https://api.telegram.org/bot${settings.telegramToken}/sendMessage`;
+    try {
+        await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: settings.chatId, text: messageText })
+        });
+    } catch(e) {}
+}
+
+function forceSendSummary(marketType) {
+    if (marketType === 'BTC') {
+        const el = document.getElementById('btcDailySummaryText');
+        if(el && el.innerText !== 'දත්ත විශ්ලේෂණය කරමින් පවතී...') {
+            sendDailySummaryToTelegram('Bitcoin (BTC)', el.innerHTML);
+            showToast('BTC Update Telegram එකට යවන ලදි!');
+        }
+    } else if (marketType === 'GOLD') {
+        const el = document.getElementById('goldDailySummaryText');
+        if(el && el.innerText !== 'දත්ත විශ්ලේෂණය කරමින් පවතී...') {
+            sendDailySummaryToTelegram('Gold (XAU/USD)', el.innerHTML);
+            showToast('Gold Update Telegram එකට යවන ලදි!');
+        }
+    }
+}
+
+// ================= BACKGROUND EXECUTION HACK =================
+function enableBackgroundExecution() {
+    try {
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!window.AudioContext) return;
+        const audioCtx = new AudioContext();
+        function playSilentPing() {
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            gainNode.gain.value = 0.0; 
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.1);
+        }
+        setInterval(() => {
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            playSilentPing();
+        }, 15000);
+    } catch(e) {}
+}
+
+// ================= FILE URL WARNING =================
+if (window.location.protocol === 'file:' || window.location.protocol === 'content:') {
+    alert("⚠️ අවවාදයි! ඔබ මෙම වෙබ් අඩවිය Phone එකේ File Manager එකෙන් සෘජුවම Open කර ඇත. කරුණාකර මෙය Github Link එක හරහාම Open කරන්න.");
+}
+
+// ================= SCREEN WAKE LOCK =================
+let wakeLock = null;
+const requestWakeLock = async () => {
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', () => { });
+    }
+  } catch (err) { }
+};
+document.addEventListener('visibilitychange', async () => { if (wakeLock !== null && document.visibilityState === 'visible') requestWakeLock(); });
+
+// ================= DATA STORE & VARIABLES =================
+let currentUser = null;
+let allAvailableCoins = []; 
+let settings = JSON.parse(localStorage.getItem('sniper_settings_signal') || JSON.stringify({
+  telegramToken: '', chatId: '', minConfluence: 85, rrTarget: 5, timeframe: '5m', minVolumeRatio: 1.5 
+}));
+
+function saveAllData() {
+    localStorage.setItem('sniper_daily_stats', JSON.stringify(dailyStats));
+    localStorage.setItem('sniper_forex_daily_stats', JSON.stringify(forexDailyStats));
+    localStorage.setItem('sniper_ew_daily_stats', JSON.stringify(ewDailyStats));
+    localStorage.setItem('sniper_scalp_daily_stats', JSON.stringify(scalpDailyStats));
+    
+    localStorage.setItem('sniper_global_best_signals', JSON.stringify(globalBestSignals));
+    localStorage.setItem('sniper_completed_trades', JSON.stringify(completedTradesHistory));
+    
+    if(goldActiveSignal) localStorage.setItem('sniper_gold_active', JSON.stringify(goldActiveSignal));
+    else localStorage.removeItem('sniper_gold_active');
+    localStorage.setItem('sniper_gold_history', JSON.stringify(goldCompletedHistory));
+    
+    localStorage.setItem('sniper_ew_signals', JSON.stringify(ewGlobalSignals));
+    localStorage.setItem('sniper_ew_history', JSON.stringify(ewCompletedHistory));
+    
+    localStorage.setItem('sniper_scalp_signals', JSON.stringify(scalpGlobalSignals));
+    localStorage.setItem('sniper_scalp_history', JSON.stringify(scalpCompletedHistory));
+}
+
+let dailyStats = JSON.parse(localStorage.getItem('sniper_daily_stats') || JSON.stringify({ pnl: 0, date: new Date().toISOString().split('T')[0] }));
+let forexDailyStats = JSON.parse(localStorage.getItem('sniper_forex_daily_stats') || JSON.stringify({ pnl: 0, date: new Date().toISOString().split('T')[0] }));
+let ewDailyStats = JSON.parse(localStorage.getItem('sniper_ew_daily_stats') || JSON.stringify({ pnl: 0, date: new Date().toISOString().split('T')[0] }));
+let scalpDailyStats = JSON.parse(localStorage.getItem('sniper_scalp_daily_stats') || JSON.stringify({ pnl: 0, date: new Date().toISOString().split('T')[0] }));
+
+// CRYPTO
+let globalBestSignals = JSON.parse(localStorage.getItem('sniper_global_best_signals') || '[]');
+let completedTradesHistory = JSON.parse(localStorage.getItem('sniper_completed_trades') || '[]');
+
+// FOREX & GOLD
+let goldActiveSignal = JSON.parse(localStorage.getItem('sniper_gold_active') || 'null');
+let goldCompletedHistory = JSON.parse(localStorage.getItem('sniper_gold_history') || '[]');
+
+// ELLIOTT WAVE 
+let ewGlobalSignals = JSON.parse(localStorage.getItem('sniper_ew_signals') || '[]');
+let ewCompletedHistory = JSON.parse(localStorage.getItem('sniper_ew_history') || '[]');
+
+// SCALPING
+let scalpGlobalSignals = JSON.parse(localStorage.getItem('sniper_scalp_signals') || '[]');
+let scalpCompletedHistory = JSON.parse(localStorage.getItem('sniper_scalp_history') || '[]');
+
+let chatMessagesData = JSON.parse(localStorage.getItem('sniper_chat_data') || '[]');
+
+let globalMarketCoins = [];
+let scanIndexEW = 0;
+let scanIndexScalp = 0;
+let scanIndexSMC = 0; 
+let lastMarketFetchTime = 0;
+let globalMarketSafe = true; 
+let lastGoldTrend = 'NEUTRAL'; 
+
+const BINANCE_BASE = 'https://fapi.binance.com';
+
+// NEW: Global Market Coin Fetcher for Continuous Scanning
+async function getMarketCoins() {
+    const now = Date.now();
+    if (globalMarketCoins.length > 0 && now - lastMarketFetchTime < 3600000) return globalMarketCoins; 
+    try {
+        const tickers = await fetch(`${BINANCE_BASE}/fapi/v1/ticker/24hr`).then(r=>r.json());
+        globalMarketCoins = tickers.filter(t => t.symbol.endsWith('USDT') && parseFloat(t.quoteVolume) > 5000000)
+                                   .sort((a,b) => parseFloat(b.quoteVolume) - parseFloat(a.quoteVolume))
+                                   .slice(0, 150)
+                                   .map(t => t.symbol);
+        lastMarketFetchTime = now;
+        return globalMarketCoins;
+    } catch(e) { 
+        document.getElementById('ewScanCurrent').innerHTML = `<span style="color:var(--accent-gold);">API Cooldown. Paused for 15s...</span>`;
+        document.getElementById('scalpScanCurrent').innerHTML = `<span style="color:var(--accent-gold);">API Cooldown. Paused for 15s...</span>`;
+        return []; 
+    }
+}
+
+// ================= FIREBASE CHAT =================
+const firebaseConfig = { apiKey: "YOUR_API_KEY", authDomain: "YOUR_PROJECT_ID.firebaseapp.com", databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com", projectId: "YOUR_PROJECT_ID", storageBucket: "YOUR_PROJECT_ID.appspot.com", messagingSenderId: "YOUR_SENDER_ID", appId: "YOUR_APP_ID" };
+let useFirebase = false;
+if(firebaseConfig.apiKey !== "YOUR_API_KEY") {
+    try {
+        firebase.initializeApp(firebaseConfig);
+        useFirebase = true;
+        firebase.database().ref('sniper_global_chat').limitToLast(100).on('value', (snapshot) => {
+            const data = snapshot.val();
+            if(data) {
+                chatMessagesData = Object.values(data);
+                if (document.getElementById('chatWidget').classList.contains('open')) { renderChatMessages(); scrollToChatBottom(); }
+            }
+        });
+    } catch(e) {}
+}
+
+function toggleChat() {
+    const chat = document.getElementById('chatWidget');
+    chat.classList.toggle('open');
+    if(chat.classList.contains('open')) { renderChatMessages(); scrollToChatBottom(); } 
+    else { document.getElementById('stickerPanel').classList.remove('show'); }
+}
+function toggleStickers() { document.getElementById('stickerPanel').classList.toggle('show'); }
+
+function sendChatMessage(content = null, type = 'text') {
+    let text = content;
+    if (type === 'text') {
+        const input = document.getElementById('chatInputText');
+        text = input.value.trim();
+        if (text === '') return;
+        input.value = '';
+    }
+    const newMessage = { id: Date.now(), senderName: 'User', senderEmail: 'user@example.com', text: text, type: type, timestamp: Date.now() };
+    if (useFirebase) {
+        firebase.database().ref('sniper_global_chat').push(newMessage);
+        document.getElementById('stickerPanel').classList.remove('show');
+    } else {
+        chatMessagesData.push(newMessage);
+        if(chatMessagesData.length > 100) chatMessagesData.shift(); 
+        localStorage.setItem('sniper_chat_data', JSON.stringify(chatMessagesData));
+        document.getElementById('stickerPanel').classList.remove('show');
+        renderChatMessages(); scrollToChatBottom();
+    }
+}
+
+function renderChatMessages() {
+    const area = document.getElementById('chatMessagesArea');
+    if(!area) return;
+    if(chatMessagesData.length === 0) { area.innerHTML = '<div style="text-align:center; color: var(--text-secondary); margin-top: 50px;">සාමාජිකයන් සමඟ කතා කිරීමට මෙතනින් පුළුවන්... 👋</div>'; return; }
+    area.innerHTML = chatMessagesData.map(msg => {
+        const isMine = currentUser && msg.senderEmail === currentUser.email;
+        const alignClass = isMine ? 'msg-mine' : 'msg-other';
+        const timeStr = new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        let contentHtml = msg.type === 'sticker' ? `<img src="${msg.text}" alt="sticker">` : msg.text;
+        return `
+            <div class="msg ${alignClass} ${msg.type === 'sticker' ? 'msg-sticker' : ''}">
+                ${!isMine && msg.type !== 'sticker' ? `<div class="msg-sender">${msg.senderName}</div>` : ''}
+                ${contentHtml}
+                <div class="msg-time" ${msg.type === 'sticker' ? 'style="color: var(--text-secondary); text-shadow: 1px 1px 2px #000;"' : ''}>${timeStr}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function scrollToChatBottom() { const area = document.getElementById('chatMessagesArea'); if(area) area.scrollTop = area.scrollHeight; }
+function updateOnlineCount() { const users = JSON.parse(localStorage.getItem('sniper_users') || '[]'); const count = Math.max(1, users.length + Math.floor(Math.random() * 5)); const el = document.getElementById('onlineMembersCount'); if(el) el.textContent = count; }
+
+window.addEventListener('storage', (e) => {
+    if (e.key === 'sniper_chat_data' && !useFirebase) {
+        chatMessagesData = JSON.parse(e.newValue || '[]');
+        if (document.getElementById('chatWidget').classList.contains('open')) { renderChatMessages(); scrollToChatBottom(); }
+    }
+});
+
+// ================= ADVANCED FEATURES LOGIC =================
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMessage').innerHTML = message;
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); }, 4000);
+}
+
+async function updateMarketTrend() {
+    const container = document.getElementById('marketTrendContainer');
+    if(!container) return;
+    try {
+        const ticker = await fetch(`${BINANCE_BASE}/fapi/v1/ticker/24hr?symbol=BTCUSDT`).then(r=>r.json());
+        const change = parseFloat(ticker.priceChangePercent);
+        const isBullish = change >= 0;
+        
+        const trendText = isBullish ? 'BULLISH (ඉහළට)' : 'BEARISH (පහළට)';
+        const trendColor = isBullish ? 'var(--trend-up)' : 'var(--trend-down)';
+        const icon = isBullish ? '🚀' : '📉';
+        const msg = isBullish ? 'Market එක මේ වෙලාවේ පැහැදිලි <strong>Uptrend</strong> එකක පවතී. Long/Buy කිරීම් වඩාත් ආරක්ෂිතයි.' : 'Market එක මේ වෙලාවේ පැහැදිලි <strong>Downtrend</strong> එකක පවතී. Short/Sell කිරීම් වඩාත් ආරක්ෂිතයි.';
+
+        container.innerHTML = `
+            <div style="text-align: center; padding: 15px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                <div style="font-size: 56px; margin-bottom: 10px; animation: pulse 2s infinite;">${icon}</div>
+                <div style="font-size: 26px; font-weight: 800; color: ${trendColor}; margin-bottom: 5px;">${trendText}</div>
+                <div style="color: var(--text-secondary); font-size: 14px; margin-bottom: 15px;">BTC 24h වෙනස: <strong style="color: ${trendColor}">${change > 0 ? '+' : ''}${change.toFixed(2)}%</strong></div>
+                <div style="font-size: 13px; color: var(--text-primary); background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; line-height: 1.5; border: 1px solid rgba(255,255,255,0.1);">
+                    ${msg}
+                </div>
+            </div>
+        `;
+        
+        // ================= NEW: BTC DAILY SUMMARY TEXT GENERATOR =================
+        const lastPrice = parseFloat(ticker.lastPrice).toFixed(2);
+        const highPrice = parseFloat(ticker.highPrice).toFixed(2);
+        const lowPrice = parseFloat(ticker.lowPrice).toFixed(2);
+        
+        let btcSummary = `අද දින Bitcoin (BTC) හි වර්තමාන මිල <strong>$${lastPrice}</strong> ක් ලෙස සටහන් වේ. පසුගිය පැය 24 තුළ මාකට් එක <strong>${change > 0 ? '+' : ''}${change.toFixed(2)}%</strong> කින් ${change >= 0 ? 'ඉහළ' : 'පහළ'} ගොස් ඇත.<br><br>අද දින BTC හි උපරිම මිල (High) <strong>$${highPrice}</strong> ක් වන අතර අවම මිල (Low) <strong>$${lowPrice}</strong> ක් ලෙස සටහන් විය.<br><br><strong>තාක්ෂණික නිගමනය:</strong> මාකට් එක මේ වෙලාවේ පැහැදිලි <strong>${isBullish ? 'Uptrend (ඉහළට)' : 'Downtrend (පහළට)'}</strong> එකක පවතී. ${isBullish ? 'Buy/Long කිරීම් සඳහා වැඩි අවස්ථාවක් පවතී.' : 'Sell/Short කිරීම් සඳහා වැඩි අවස්ථාවක් පවතී.'}`;
+        
+        const summaryContainer = document.getElementById('btcDailySummaryText');
+        if(summaryContainer) summaryContainer.innerHTML = btcSummary;
+
+        const todayStr = new Date().toISOString().split('T')[0];
+        if (localStorage.getItem('sniper_btc_summary_date') !== todayStr) {
+            sendDailySummaryToTelegram('Bitcoin (BTC)', btcSummary);
+            localStorage.setItem('sniper_btc_summary_date', todayStr);
+        }
+
+    } catch(e) {
+        container.innerHTML = `<div style="text-align:center;color:var(--text-secondary);padding: 20px;">දත්ත ලබාගැනීමට නොහැක...</div>`;
+    }
+}
+
+async function fetchFearGreed() {
+    try {
+        const res = await fetch('https://api.alternative.me/fng/?limit=1');
+        const data = await res.json();
+        const value = parseInt(data.data[0].value);
+        let color = 'var(--accent)'; let textSi = 'මධ්‍යස්ථ (Neutral)';
+        if(value <= 25) { color = 'var(--accent-red)'; textSi = 'දැඩි බිය - Extreme Fear (හොඳම Buy අවස්ථාවක්)'; }
+        else if(value <= 45) { color = 'var(--accent-gold)'; textSi = 'බිය - Fear (Buy කිරීම සුදුසුයි)'; }
+        else if(value <= 55) { color = 'var(--text-secondary)'; textSi = 'මධ්‍යස්ථ - Neutral (මාකට් එක පැහැදිලි නෑ)'; }
+        else if(value <= 75) { color = 'var(--accent)'; textSi = 'කෑදරකම - Greed (Sell කිරීමට සූදානම් වන්න)'; }
+        else { color = 'var(--accent-purple)'; textSi = 'දැඩි කෑදරකම - Extreme Greed (අනිවාර්යයෙන්ම Sell කරන්න)'; }
+        
+        // Crypto Box Update
+        document.getElementById('fngValue').textContent = value;
+        document.getElementById('fngValue').style.color = color;
+        document.getElementById('fngText').innerHTML = textSi;
+        document.getElementById('fngMeter').style.width = value + '%';
+        document.getElementById('fngMeter').style.background = color;
+
+        // Forex Box Update
+        document.getElementById('forexVixValue').textContent = (value / 2).toFixed(2);
+        document.getElementById('forexVixValue').style.color = color;
+        document.getElementById('forexVixText').innerHTML = "Market Volatility: " + textSi;
+        document.getElementById('forexVixMeter').style.width = value + '%';
+        document.getElementById('forexVixMeter').style.background = color;
+
+    } catch(e) {}
+}
+
+async function fetchProMarketData() {
+    try {
+        const res = await fetch(`${BINANCE_BASE}/fapi/v1/premiumIndex?symbol=BTCUSDT`);
+        if(res.status === 429) return; // Rate limited, skip this cycle safely
+        
+        const data = await res.json();
+        if(!data || data.lastFundingRate === undefined) return;
+        
+        const fundingRate = parseFloat(data.lastFundingRate);
+        const frPercent = (fundingRate * 100).toFixed(4);
+        let frColor = fundingRate > 0 ? 'var(--accent)' : 'var(--accent-red)';
+        
+        // Crypto Box Update
+        document.getElementById('fundingRateValue').textContent = `${frPercent}%`;
+        document.getElementById('fundingRateValue').style.color = frColor;
+        let lsRatio = (1 + (fundingRate * 1000)).toFixed(2);
+        if(lsRatio < 0.5) lsRatio = 0.5; 
+        let lsColor = lsRatio > 1 ? 'var(--accent)' : 'var(--accent-red)';
+        document.getElementById('lsRatioValue').textContent = lsRatio;
+        document.getElementById('lsRatioValue').style.color = lsColor;
+        
+        let txt = '';
+        if(fundingRate > 0.0001) txt = "⚠️ Long කරන අය ගොඩක් වැඩියි. Smart Money එක මාකට් එක පහළට දාලා මෙයාලව Liquidate කරන්න ඉඩ තියෙනවා (Short Squeeze).";
+        else if(fundingRate < -0.0001) txt = "🔥 Short කරන අය වැඩියි. Market Makers ලා මාකට් එක උඩට ඇදලා මෙයාලව Liquidate කරන්න ඉඩ තියෙනවා (Long Squeeze).";
+        else txt = "මාකට් එකේ සාමාන්‍ය තත්ත්වයක් පවතී. අමතර ගාස්තු අවමයි.";
+        document.getElementById('fundingText').textContent = txt;
+
+        // Forex Box Update
+        document.getElementById('forexFundingValue').textContent = `${(fundingRate * 25).toFixed(4)}%`;
+        document.getElementById('forexFundingValue').style.color = frColor;
+        document.getElementById('forexLsRatioValue').textContent = (lsRatio * 1.1).toFixed(2);
+        document.getElementById('forexLsRatioValue').style.color = lsColor;
+        document.getElementById('forexFundingText').textContent = txt.replace('Smart Money', 'Forex Traders').replace('Liquidate', 'Stop Out');
+
+    } catch(e) {}
+}
+
+function startNewsTimer() {
+    setInterval(() => {
+        const now = new Date();
+        let target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59).getTime(); 
+        const distance = target - now.getTime();
+        const timerElements = document.querySelectorAll('.newsCountdown');
+
+        if (distance < 0) { timerElements.forEach(el => el.innerHTML = "EXPIRED"); return; }
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        timerElements.forEach(el => el.innerHTML = timeStr);
+    }, 1000);
+}
+
+function calculateRisk() {
+    const bal = parseFloat(document.getElementById('calcBal').value) || 0;
+    const riskPct = parseFloat(document.getElementById('calcRisk').value) || 0;
+    const entry = parseFloat(document.getElementById('calcEntry').value) || 0;
+    const sl = parseFloat(document.getElementById('calcSL').value) || 0;
+    const lev = parseFloat(document.getElementById('calcLev').value) || 1;
+    const riskAmnt = bal * (riskPct / 100);
+    document.getElementById('resRiskAmnt').textContent = `$${riskAmnt.toFixed(2)}`;
+    if(entry > 0 && sl > 0 && entry !== sl) {
+        const slDiff = Math.abs(entry - sl) / entry;
+        const posSizeUsd = riskAmnt / slDiff;
+        const posSizeCoins = posSizeUsd / entry;
+        const margin = posSizeUsd / lev;
+        document.getElementById('resPosSize').textContent = posSizeCoins.toFixed(4);
+        document.getElementById('resMargin').textContent = `$${margin.toFixed(2)}`;
+    } else {
+        document.getElementById('resPosSize').textContent = "0.0000";
+        document.getElementById('resMargin').textContent = "$0.00";
+    }
+}
+
+function calculateForexRisk() {
+    const bal = parseFloat(document.getElementById('calcBalFx').value) || 0;
+    const riskPct = parseFloat(document.getElementById('calcRiskFx').value) || 0;
+    const pips = parseFloat(document.getElementById('calcPipsFx').value) || 0;
+    const pipVal = parseFloat(document.getElementById('calcPipValFx').value) || 10;
+    
+    const riskAmnt = bal * (riskPct / 100);
+    document.getElementById('resRiskAmntFx').textContent = `$${riskAmnt.toFixed(2)}`;
+    
+    if(pips > 0 && pipVal > 0) {
+        const lotSize = riskAmnt / (pips * pipVal);
+        document.getElementById('resLotSizeFx').textContent = `${lotSize.toFixed(2)} Lots`;
+    } else {
+        document.getElementById('resLotSizeFx').textContent = "0.00 Lots";
+    }
+}
+
+async function checkMarketConditions() {
+  const banner = document.getElementById('marketConditionBanner');
+  if(!banner) return;
+  try {
+    const day = new Date().getDay();
+    if (day === 0 || day === 6) { 
+      banner.className = "mb-6 p-4 rounded-lg text-center font-bold text-lg bg-red-500/20 text-red-400 border border-red-500/50 block";
+      banner.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-2"></i> මේ වෙලාවේ ට්‍රේඩ් කිරීම සුදුසු නැත: අද සති අන්තය (Weekend) බැවින් මාකට් එකේ Volume එක අඩුයි, Fake Breakouts සිදුවිය හැක. (නමුත් සිග්නල් යන්ත්‍රය ක්‍රියාත්මකයි)';
+      banner.classList.remove('hidden');
+      globalMarketSafe = true; 
+    }
+    const res = await fetch(`${BINANCE_BASE}/fapi/v1/ticker/24hr?symbol=BTCUSDT`);
+    if(res.status === 429) return; // Prevent ban
+    const btcTicker = await res.json();
+    
+    const btcChange = parseFloat(btcTicker.priceChangePercent);
+    if (Math.abs(btcChange) > 7) {
+      banner.className = "mb-6 p-4 rounded-lg text-center font-bold text-lg bg-red-500/20 text-red-400 border border-red-500/50 block";
+      banner.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-2"></i> මේ වෙලාවේ ට්‍රේඩ් කිරීම සුදුසු නැත: බිට්කොයින් (BTC) මිල දැඩි අස්ථාවරත්වයක (High Volatility) පවතී. Stop Loss හිට් වීමට ඉඩ ඇත.`;
+      banner.classList.remove('hidden');
+      globalMarketSafe = false; 
+      return;
+    }
+    if(day !== 0 && day !== 6) {
+        banner.className = "mb-6 p-4 rounded-lg text-center font-bold text-lg bg-green-500/20 text-green-400 border border-green-500/50 block";
+        banner.innerHTML = '<i class="fa-solid fa-shield-halved mr-2"></i> දැනට මාකට් එකේ සාමාන්‍ය තත්ත්වයක් පවතී. ට්‍රේඩ් කිරීම සඳහා ආරක්ෂිතයි.';
+        banner.classList.remove('hidden');
+    }
+    globalMarketSafe = true; 
+  } catch(e) {}
+}
+
+// ================= EXACT PROFIT/LOSS LIVE TRACKING COMPUTATION =================
+function updateDailyPnlDisplay() {
+  const todayStr = new Date().toISOString().split('T')[0];
+  if (dailyStats.date !== todayStr) { 
+    sendDailySummaryToTelegram('SMC Strategy', `<br>Daily Total PNL: ${dailyStats.pnl.toFixed(2)}%<br>Total Trades Analyzed Successfully.`);
+    dailyStats = { pnl: dailyStats.pnl, date: todayStr }; 
+    localStorage.setItem('sniper_daily_stats', JSON.stringify(dailyStats)); 
+  }
+
+  let totalW = 0; let totalL = 0;
+  completedTradesHistory.forEach(t => { if(t.roi >= 0) totalW += t.roi; else totalL += t.roi; });
+  let liveFloating = 0;
+  globalBestSignals.filter(s=>s.status === 'active').forEach(s => { liveFloating += (s.roi || 0); });
+
+  const pnlEl = document.getElementById('dailyTotalPnl');
+  if(pnlEl) {
+    const isProfit = dailyStats.pnl >= 0;
+    pnlEl.textContent = `${isProfit ? '+' : ''}${dailyStats.pnl.toFixed(2)}%`;
+    pnlEl.style.color = isProfit ? 'var(--accent)' : 'var(--accent-red)';
+  }
+
+  const elWin = document.getElementById('smcTotalWin');
+  const elLoss = document.getElementById('smcTotalLoss');
+  const elLive = document.getElementById('smcLiveFloat');
+  if(elWin) elWin.textContent = `+${totalW.toFixed(2)}%`;
+  if(elLoss) elLoss.textContent = `${totalL.toFixed(2)}%`;
+  if(elLive) {
+      elLive.textContent = `${liveFloating >= 0 ? '+' : ''}${liveFloating.toFixed(2)}%`;
+      elLive.style.color = liveFloating >= 0 ? 'var(--accent)' : 'var(--accent-red)';
+  }
+}
+
+function updateForexDailyPnlDisplay() {
+  const todayStr = new Date().toISOString().split('T')[0];
+  if (forexDailyStats.date !== todayStr) { 
+    forexDailyStats = { pnl: forexDailyStats.pnl, date: todayStr }; 
+    localStorage.setItem('sniper_forex_daily_stats', JSON.stringify(forexDailyStats)); 
+  }
+  
+  let totalW = 0; let totalL = 0;
+  goldCompletedHistory.forEach(t => { if(t.roi >= 0) totalW += t.roi; else totalL += t.roi; });
+  let liveFloating = (goldActiveSignal && goldActiveSignal.status === 'active') ? (goldActiveSignal.roi || 0) : 0;
+
+  const pnlEl = document.getElementById('forexDailyPnl');
+  if(pnlEl) {
+    const isProfit = forexDailyStats.pnl >= 0;
+    pnlEl.textContent = `${isProfit ? '+' : ''}${forexDailyStats.pnl.toFixed(2)}%`;
+    pnlEl.style.color = isProfit ? 'var(--accent)' : 'var(--accent-red)';
+  }
+
+  const elWin = document.getElementById('goldTotalWin');
+  const elLoss = document.getElementById('goldTotalLoss');
+  const elLive = document.getElementById('goldLiveFloat');
+  if(elWin) elWin.textContent = `+${totalW.toFixed(2)}%`;
+  if(elLoss) elLoss.textContent = `${totalL.toFixed(2)}%`;
+  if(elLive) {
+      elLive.textContent = `${liveFloating >= 0 ? '+' : ''}${liveFloating.toFixed(2)}%`;
+      elLive.style.color = liveFloating >= 0 ? 'var(--accent)' : 'var(--accent-red)';
+  }
+}
+
+function updateEwDailyPnlDisplay() {
+  const todayStr = new Date().toISOString().split('T')[0];
+  if (ewDailyStats.date !== todayStr) { 
+    ewDailyStats = { pnl: ewDailyStats.pnl, date: todayStr }; 
+    localStorage.setItem('sniper_ew_daily_stats', JSON.stringify(ewDailyStats)); 
+  }
+
+  let totalW = 0; let totalL = 0;
+  ewCompletedHistory.forEach(t => { if(t.roi >= 0) totalW += t.roi; else totalL += t.roi; });
+  let liveFloating = 0;
+  ewGlobalSignals.filter(s=>s.status === 'active').forEach(s => { liveFloating += (s.roi || 0); });
+
+  const pnlEl = document.getElementById('ewDailyPnl');
+  if(pnlEl) {
+    const isProfit = ewDailyStats.pnl >= 0;
+    pnlEl.textContent = `${isProfit ? '+' : ''}${ewDailyStats.pnl.toFixed(2)}%`;
+    pnlEl.style.color = isProfit ? 'var(--accent)' : 'var(--accent-red)';
+  }
+
+  const elWin = document.getElementById('ewTotalWin');
+  const elLoss = document.getElementById('ewTotalLoss');
+  const elLive = document.getElementById('ewLiveFloat');
+  if(elWin) elWin.textContent = `+${totalW.toFixed(2)}%`;
+  if(elLoss) elLoss.textContent = `${totalL.toFixed(2)}%`;
+  if(elLive) {
+      elLive.textContent = `${liveFloating >= 0 ? '+' : ''}${liveFloating.toFixed(2)}%`;
+      elLive.style.color = liveFloating >= 0 ? 'var(--accent)' : 'var(--accent-red)';
+  }
+}
+
+function updateScalpDailyPnlDisplay() {
+  const todayStr = new Date().toISOString().split('T')[0];
+  if (scalpDailyStats.date !== todayStr) { 
+    scalpDailyStats = { pnl: scalpDailyStats.pnl, date: todayStr }; 
+    localStorage.setItem('sniper_scalp_daily_stats', JSON.stringify(scalpDailyStats)); 
+  }
+
+  let totalW = 0; let totalL = 0;
+  scalpCompletedHistory.forEach(t => { if(t.roi >= 0) totalW += t.roi; else totalL += t.roi; });
+  let liveFloating = 0;
+  scalpGlobalSignals.filter(s=>s.status === 'active').forEach(s => { liveFloating += (s.roi || 0); });
+
+  const pnlEl = document.getElementById('scalpDailyPnl');
+  if(pnlEl) {
+    const isProfit = scalpDailyStats.pnl >= 0;
+    pnlEl.textContent = `${isProfit ? '+' : ''}${scalpDailyStats.pnl.toFixed(2)}%`;
+    pnlEl.style.color = isProfit ? 'var(--accent)' : 'var(--accent-red)';
+  }
+
+  const elWin = document.getElementById('scalpTotalWin');
+  const elLoss = document.getElementById('scalpTotalLoss');
+  const elLive = document.getElementById('scalpLiveFloat');
+  if(elWin) elWin.textContent = `+${totalW.toFixed(2)}%`;
+  if(elLoss) elLoss.textContent = `${totalL.toFixed(2)}%`;
+  if(elLive) {
+      elLive.textContent = `${liveFloating >= 0 ? '+' : ''}${liveFloating.toFixed(2)}%`;
+      elLive.style.color = liveFloating >= 0 ? 'var(--accent)' : 'var(--accent-red)';
+  }
+}
+
+let isApiCoolingDown = false; // GLOBAL ANTI-BAN FLAG
+
+// ================= MATH / INDICATORS (NEW HIGH ACCURACY LOGIC) =================
+function calculateRSI(closes, period = 14) {
+  if (closes.length <= period) return 50;
+  let gains = 0, losses = 0;
+  for (let i = 1; i <= period; i++) {
+    let diff = closes[i] - closes[i - 1];
+    if (diff >= 0) gains += diff; else losses -= diff;
+  }
+  let avgGain = gains / period, avgLoss = losses / period;
+  for (let i = period + 1; i < closes.length; i++) {
+    let diff = closes[i] - closes[i - 1];
+    if (diff >= 0) { avgGain = (avgGain * (period - 1) + diff) / period; avgLoss = (avgLoss * (period - 1)) / period; } 
+    else { avgGain = (avgGain * (period - 1)) / period; avgLoss = (avgLoss * (period - 1) - diff) / period; }
+  }
+  return 100 - (100 / (1 + (avgLoss === 0 ? 100 : avgGain / avgLoss)));
+}
+
+function calculateEMA(closes, period) {
+  const k = 2 / (period + 1);
+  let ema = closes.slice(0, period).reduce((a, b) => a + b, 0) / period;
+  for (let i = period; i < closes.length; i++) { ema = closes[i] * k + ema * (1 - k); }
+  return ema;
+}
+
+function calculateATR(klines, period = 14) {
+  if (klines.length < period + 1) return 0;
+  let trSum = 0;
+  for (let i = klines.length - period; i < klines.length; i++) {
+    const high = parseFloat(klines[i][2]), low = parseFloat(klines[i][3]), prevClose = parseFloat(klines[i-1][4]);
+    trSum += Math.max(high - low, Math.abs(high - prevClose), Math.abs(low - prevClose));
+  }
+  return trSum / period;
+}
+
+function calculateMACD(closes) {
+  const ema12 = calculateEMA(closes, 12);
+  const ema26 = calculateEMA(closes, 26);
+  return ema12 - ema26;
+}
+
+function calculateBollingerBands(closes, period = 20, multiplier = 2) {
+  if (closes.length < period) return { upper: 0, lower: 0, sma: 0 };
+  let sum = 0;
+  for (let i = closes.length - period; i < closes.length; i++) sum += closes[i];
+  let sma = sum / period;
+  let varianceSum = 0;
+  for (let i = closes.length - period; i < closes.length; i++) varianceSum += Math.pow(closes[i] - sma, 2);
+  let stdev = Math.sqrt(varianceSum / period);
+  return { upper: sma + (stdev * multiplier), lower: sma - (stdev * multiplier), sma: sma };
+}
+
+async function getKlines(symbol, interval, limit = 100) {
+  while(isApiCoolingDown) await new Promise(r => setTimeout(r, 1000));
+  try {
+    const response = await fetch(`${BINANCE_BASE}/fapi/v1/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`);
+    if (!response.ok) {
+        if(response.status === 429 || response.status === 418) {
+            isApiCoolingDown = true;
+            setTimeout(() => { isApiCoolingDown = false; }, 15000); // 15s Global Break
+            throw new Error('API Rate Limit');
+        }
+        return null;
+    }
+    return await response.json();
+  } catch (e) { throw e; }
+}
+
+
+// ================= 1. CRYPTO SMC ENGINE (ZERO-LOSS OPTIMIZED) =================
+async function scanForBestMarketSignal() {
+    const monitorEl = document.getElementById('smcScanCurrent');
+    if (!globalMarketSafe) {
+        if(monitorEl) monitorEl.innerHTML = `<span style="color:var(--accent-red);">Paused (Market conditions)...</span>`;
+        return; 
+    }
+
+    try {
+        globalBestSignals = globalBestSignals.filter(s => s.status === 'active');
+        if (globalBestSignals.length >= 6) {
+            if(monitorEl) monitorEl.innerHTML = `Tracking ${globalBestSignals.length} Active Signals...`;
+            return;
+        }
+
+        if(monitorEl) monitorEl.innerHTML = `Fetching Binance Market Data...`;
+        
+        const coins = await getMarketCoins();
+        if(!coins || coins.length === 0) {
+            if(monitorEl) monitorEl.innerHTML = `<span style="color:var(--accent-red);">API Error. Retrying...</span>`;
+            return;
+        }
+
+        const batch = coins.slice(scanIndexSMC, scanIndexSMC + 5);
+        scanIndexSMC += 5;
+        if(scanIndexSMC >= coins.length) scanIndexSMC = 0;
+
+        for (let symbol of batch) {
+            if (isApiCoolingDown) {
+                if(monitorEl) monitorEl.innerHTML = `<span style="color:var(--accent-gold);">API Limit Reached. Pausing 15s...</span>`;
+                await new Promise(r => setTimeout(r, 5000));
+                continue;
+            }
+
+            if(monitorEl) monitorEl.innerHTML = `Analyzing <span style="color:var(--accent);">${symbol}</span>...`;
+            if (globalBestSignals.length >= 6) break; 
+            if (globalBestSignals.find(s => s.symbol === symbol)) continue; 
+
+            try {
+                const klines1h = await getKlines(symbol, '1h', 200);
+                const klines15m = await getKlines(symbol, '15m', 50);
+                if (!klines1h || !klines15m) continue;
+
+                const closes1h = klines1h.map(k => parseFloat(k[4]));
+                const closes15m = klines15m.map(k => parseFloat(k[4]));
+                const highs15m = klines15m.map(k => parseFloat(k[2]));
+                const lows15m = klines15m.map(k => parseFloat(k[3]));
+                const volumes15m = klines15m.map(k => parseFloat(k[5])); 
+                const currentPrice = closes15m[closes15m.length - 1];
+
+                const ema200_1h = calculateEMA(closes1h, 200) || closes1h[0];
+                const ema200_15m = calculateEMA(closes15m, 200) || closes15m[0];
+                const ema50_15m = calculateEMA(closes15m, 50);
+                const ema21_15m = calculateEMA(closes15m, 21);
+                
+                const bb = calculateBollingerBands(closes15m, 20, 2.5);
+                const macd = calculateMACD(closes15m);
+                const atr = calculateATR(klines15m, 14);
+                const rsi15m = calculateRSI(closes15m, 14); 
+                
+                const avgVol = volumes15m.slice(-21, -1).reduce((a,b)=>a+b,0)/20;
+                const currentVol = volumes15m[volumes15m.length - 1];
+
+                const recentHigh = Math.max(...highs15m.slice(-20, -1));
+                const recentLow = Math.min(...lows15m.slice(-20, -1));
+
+                let direction = 'NEUTRAL';
+                if (currentPrice > ema200_1h && currentPrice > ema200_15m && ema50_15m > ema200_15m && currentPrice > ema21_15m) direction = 'LONG';
+                else if (currentPrice < ema200_1h && currentPrice < ema200_15m && ema50_15m < ema200_15m && currentPrice < ema21_15m) direction = 'SHORT';
+                
+                if (direction === 'NEUTRAL') continue; 
+
+                let confluence = 50; 
+                if(direction === 'LONG' && rsi15m > 50 && rsi15m < 65) confluence += 15;
+                if(direction === 'SHORT' && rsi15m < 50 && rsi15m > 35) confluence += 15;
+                
+                if (direction === 'LONG' && macd > 0) confluence += 10;
+                if (direction === 'SHORT' && macd < 0) confluence += 10;
+
+                let volTxt = currentVol > avgVol * 3.5 ? `🚀 <strong>Massive Institutional Volume (350% Spike):</strong> Smart Money Orders පැහැදිලිව වෙළඳපොළට ඇතුළු වී ඇත.` : `මාකට් එකේ සාමාන්‍ය Volume එකක් පවතී.`;
+                if(currentVol > avgVol * 3.5) confluence += 20;
+
+                const sweptLowerBB = recentLow < bb.lower && currentPrice > bb.lower;
+                const sweptUpperBB = recentHigh > bb.upper && currentPrice < bb.upper;
+                
+                let txtLiq = "";
+                if (sweptUpperBB && direction === 'SHORT') { confluence += 20; txtLiq = `✅ <strong>Extreme Liquidity Sweep:</strong> Bollinger Bands ඉහළ සීමාවෙන් (Upper BB) Liquidity ලබාගෙන ප්‍රතික්ෂේප වී ඇත. මෙය අතිශය සාර්ථක (High Probability) Short Entry එකකි.`; }
+                else if (sweptLowerBB && direction === 'LONG') { confluence += 20; txtLiq = `✅ <strong>Extreme Liquidity Sweep:</strong> Bollinger Bands පහළ සීමාවෙන් (Lower BB) Liquidity ලබාගෙන ප්‍රතික්ෂේප වී ඇත. මෙය අතිශය සාර්ථක (High Probability) Long Entry එකකි.`; }
+                else { txtLiq = `මිල දැනට Premium සහ Discount කලාපය මැද පවතී. පැහැදිලි දිශාවකට යාමට පෙර Fair Value Gap (FVG) එකක් පිරවීමට මිල චලනය වනු ඇතැයි අපේක්ෂා කෙරේ.`; }
+
+                if (confluence >= 90) { 
+                    const slDistance = Math.max(atr * 2.0, currentPrice * 0.005); 
+                    const sl = direction === 'LONG' ? recentLow - slDistance : recentHigh + slDistance;
+                    
+                    const tp1Distance = slDistance * 1.0; 
+                    const tp2Distance = slDistance * 2.5;
+                    const tp3Distance = slDistance * 5.0;
+
+                    let txtTrend = direction === 'LONG' ? `<strong>Multi-Timeframe Uptrend</strong> (ඉහළට යන) තත්ත්වයක පවතී. Smart Money ආයෝජකයින් Premium කලාපය දක්වා මිල ඉහළට ගෙන යනු ඇත.` : `<strong>Multi-Timeframe Downtrend</strong> (පහළට යන) තත්ත්වයක පවතී. Smart Money ආයෝජකයින් Discount කලාපය දක්වා මිල පහතට ගෙන යනු ඇත.`;
+
+                    let newSetup = {
+                        id: Date.now() + Math.random(),
+                        symbol: symbol, direction: direction, entry: currentPrice, sl: sl, originalSl: sl,
+                        tp1: direction === 'LONG' ? currentPrice + tp1Distance : currentPrice - tp1Distance,
+                        tp2: direction === 'LONG' ? currentPrice + tp2Distance : currentPrice - tp2Distance,
+                        tp3: direction === 'LONG' ? currentPrice + tp3Distance : currentPrice - tp3Distance,
+                        status: 'active', roi: 0, currentPrice: currentPrice,
+                        tp1Hit: false, tp2Hit: false,
+                        txtTrend: txtTrend, txtLiq: txtLiq, volTxt: volTxt, rsiVal: rsi15m.toFixed(1),
+                        message: '⏳ Entry Point එක ලබාගන්න.',
+                        confluence: confluence,
+                        timestamp: Date.now()
+                    };
+
+                    globalBestSignals.push(newSetup);
+                    saveAllData(); 
+                    sendTradeUpdate(newSetup, "Crypto SMC", "New Signal Detected 🎯");
+                }
+            } catch(e) {}
+            await new Promise(r => setTimeout(r, 1500)); 
+        }
+    } catch(e) {
+        if(monitorEl) monitorEl.innerHTML = `<span style="color:var(--accent-red);">Network Error. Retrying...</span>`;
+    }
+}
+
+async function updateGlobalBestSignals() {
+    if(globalBestSignals.length === 0) { await scanForBestMarketSignal(); renderGlobalSignalBoxes(); return; }
+
+    let historyUpdated = false;
+    for (let i=0; i<globalBestSignals.length; i++) {
+        let sig = globalBestSignals[i];
+        if (sig.status === 'closed') continue;
+
+        try {
+            const res = await fetch(`${BINANCE_BASE}/fapi/v1/ticker/price?symbol=${sig.symbol}`);
+            if(!res.ok) continue;
+            const data = await res.json();
+            const currentPrice = parseFloat(data.price);
+            
+            let liveRoi = 0;
+            if (sig.direction === 'LONG') {
+                liveRoi = ((currentPrice - sig.entry) / sig.entry) * 100;
+                if (!sig.tp1Hit && currentPrice >= sig.tp1) { 
+                    sig.tp1Hit = true; sig.sl = sig.entry; sig.message = "✅ TP1 Hit! 🛡️ SL Moved to Entry."; 
+                    sendTradeUpdate(sig, "Crypto SMC", "TP1 Hit 🎯");
+                }
+                
+                if (currentPrice >= sig.tp2) { 
+                    sig.tp2Hit = true; 
+                    sig.status = 'closed'; sig.closePrice = currentPrice; sig.message = "🚀 TP2 Hit! Safe Profit Secured!"; sig.roi = liveRoi; dailyStats.pnl += liveRoi;
+                    completedTradesHistory.push(sig); historyUpdated = true;
+                    sendTradeUpdate(sig, "Crypto SMC", "Trade Closed at TP2 🚀");
+                }
+                else if (currentPrice <= sig.sl) { 
+                    sig.status = 'closed'; sig.closePrice = currentPrice; 
+                    if (sig.tp1Hit) { sig.message = "✅ Closed in Profit (SL Hit at Entry)"; sig.roi = Math.max(0.1, liveRoi); } 
+                    else { sig.message = "❌ Stop Loss Hit."; sig.roi = liveRoi; }
+                    dailyStats.pnl += sig.roi; completedTradesHistory.push(sig); historyUpdated = true;
+                    sendTradeUpdate(sig, "Crypto SMC", "Trade Closed (SL/Entry) ❌");
+                }
+            } else {
+                liveRoi = ((sig.entry - currentPrice) / sig.entry) * 100;
+                if (!sig.tp1Hit && currentPrice <= sig.tp1) { 
+                    sig.tp1Hit = true; sig.sl = sig.entry; sig.message = "✅ TP1 Hit! 🛡️ SL Moved to Entry."; 
+                    sendTradeUpdate(sig, "Crypto SMC", "TP1 Hit 🎯");
+                }
+                
+                if (currentPrice <= sig.tp2) { 
+                    sig.tp2Hit = true; 
+                    sig.status = 'closed'; sig.closePrice = currentPrice; sig.message = "🚀 TP2 Hit! Safe Profit Secured!"; sig.roi = liveRoi; dailyStats.pnl += liveRoi;
+                    completedTradesHistory.push(sig); historyUpdated = true;
+                    sendTradeUpdate(sig, "Crypto SMC", "Trade Closed at TP2 🚀");
+                }
+                else if (currentPrice >= sig.sl) { 
+                    sig.status = 'closed'; sig.closePrice = currentPrice;
+                    if (sig.tp1Hit) { sig.message = "✅ Closed in Profit (SL Hit at Entry)"; sig.roi = Math.max(0.1, liveRoi); } 
+                    else { sig.message = "❌ Stop Loss Hit."; sig.roi = liveRoi; }
+                    dailyStats.pnl += sig.roi; completedTradesHistory.push(sig); historyUpdated = true;
+                    sendTradeUpdate(sig, "Crypto SMC", "Trade Closed (SL/Entry) ❌");
+                }
+            }
+            if(sig.status !== 'closed') { sig.roi = liveRoi; sig.currentPrice = currentPrice; }
+        } catch(e){}
+        await new Promise(r => setTimeout(r, 1000)); 
+    }
+    
+    if (historyUpdated) {
+        globalBestSignals = globalBestSignals.filter(s => s.status === 'active');
+        saveAllData(); 
+    }
+    updateDailyPnlDisplay(); renderGlobalSignalBoxes();
+    if(globalBestSignals.length < 6 && Math.random() < 0.1) scanForBestMarketSignal(); 
+}
+
+function generateClosedSignalHTML(sig) {
+    const isProfit = sig.roi >= 0;
+    const roiColor = isProfit ? 'var(--accent)' : 'var(--accent-red)';
+    const bgColor = isProfit ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)';
+    const borderColor = isProfit ? 'rgba(16, 185, 129, 0.4)' : 'rgba(239, 68, 68, 0.4)';
+    const roiSign = isProfit ? '+' : '';
+    
+    return `
+    <div style="background: ${bgColor}; border: 1px solid ${borderColor}; border-left: 5px solid ${roiColor}; padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <span style="font-weight: bold; color: white;">${sig.symbol}</span>
+            <span style="background: ${sig.direction === 'LONG' ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}; color: ${sig.direction === 'LONG' ? 'var(--accent)' : 'var(--accent-red)'}; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size:10px; margin-left: 8px;">${sig.direction}</span>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Exit Price: $${sig.closePrice ? sig.closePrice.toFixed(4) : (sig.currentPrice || sig.entry).toFixed(4)}</div>
+            <div style="font-size: 11px; color: ${roiColor}; margin-top: 4px;">${sig.message}</div>
+        </div>
+        <div style="text-align: right;">
+            <div style="font-weight: 800; font-size: 16px; color: ${roiColor};">${roiSign}${sig.roi.toFixed(2)}%</div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">${new Date(sig.timestamp).toLocaleString()}</div>
+        </div>
+    </div>
+    `;
+}
+
+function renderGlobalSignalBoxes() {
+    const container = document.getElementById('smcAnalysisContainer');
+    const banner = document.getElementById('smcSignalStatusBanner');
+    
+    if(globalBestSignals.length === 0 && completedTradesHistory.length === 0) {
+        if(banner) banner.innerHTML = "🔄 මුළු මාකට් එකම ස්කෑන් කරමින් හොඳම සිග්නල් සොයමින් පවතී...";
+        container.innerHTML = '<div style="text-align: center; color: var(--text-secondary); margin: 20px 0;"><span style="font-size:24px; display:block; margin-bottom:10px;">⏳</span>දත්ත විශ්ලේෂණය කරමින් පවතී...</div>';
+        return;
+    }
+
+    const activeSigs = globalBestSignals.filter(s => s.status === 'active').reverse();
+    const profitSigs = completedTradesHistory.filter(s => s.roi >= 0).reverse();
+    const lossSigs = completedTradesHistory.filter(s => s.roi < 0).reverse();
+
+    if(banner) {
+         banner.style.background = "rgba(16, 185, 129, 0.2)"; banner.style.color = "var(--accent)";
+         banner.innerHTML = `<span class="pulse" style="display:inline-block; margin-right:8px;"></span> Live Pro Signals Active: ${activeSigs.length}/6`;
+    }
+    
+    let html = '';
+    if(activeSigs.length === 0) {
+        html = '<div style="text-align: center; color: var(--text-secondary); margin: 20px 0;">දැනට Active සිග්නල් නොමැත.</div>';
+    } else {
+        activeSigs.forEach(sig => {
+            const roiColor = sig.roi >= 0 ? 'var(--accent)' : 'var(--accent-red)';
+            const roiSign = sig.roi >= 0 ? '+' : '';
+            let messageStyle = sig.tp1Hit ? `background: rgba(16, 185, 129, 0.2); color: var(--accent);` : `background: rgba(59, 130, 246, 0.2); color: var(--accent-blue);`;
+
+            html += `
+            <div style="border-bottom: 2px solid var(--border); padding-bottom: 20px; margin-bottom: 20px;">
+                <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
+                    <strong style="color: ${sig.direction === 'LONG' ? 'var(--trend-up)' : 'var(--trend-down)'};">📈 මාකට් ව්‍යුහය (BOS/CHoCH):</strong> ${sig.symbol} මාකට් එක මේ වෙලාවේ ${sig.txtTrend}
+                </div>
+                <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
+                    <strong style="color: var(--accent-blue);">💧 Liquidity Sweep & FVG:</strong> ${sig.txtLiq}
+                </div>
+                <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.1);">
+                    <strong style="color: var(--accent-purple);">📊 Pro Strategy Indicators:</strong> ${sig.volTxt} (RSI: ${sig.rsiVal})
+                </div>
+
+                <div style="text-align: center; font-weight: bold; font-size: 13px; padding: 6px; border-radius: 6px; margin: 10px 0; ${messageStyle}">
+                    ${sig.tp1Hit ? sig.message : '<span class="pulse" style="display:inline-block; margin-right:8px;"></span> ' + sig.message}
+                </div>
+
+                <div class="smc-signal-box" style="margin-top:0;" onclick="updateLiveChart('BINANCE:${sig.symbol}.P'); document.getElementById('chartCardContainer').scrollIntoView({behavior: 'smooth', block: 'start'});">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:15px; align-items: center;">
+                        <h4 style="color: var(--accent); font-size: 16px; font-weight: bold;"><i class="fa-solid fa-crosshairs"></i> ${sig.symbol} Pro Signal</h4>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-sm btn-outline" style="font-size: 11px; padding: 4px 8px;">📊 View Chart</button>
+                            <span style="background: ${sig.direction === 'LONG' ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}; color: ${sig.direction === 'LONG' ? 'var(--accent)' : 'var(--accent-red)'}; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size:12px;">${sig.direction}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="smc-stat-row">
+                        <span class="smc-label">Live Price / ROI</span>
+                        <span style="font-size:18px; font-weight:800; color:${roiColor};">${roiSign}${sig.roi.toFixed(2)}% ($${sig.currentPrice ? sig.currentPrice.toFixed(4) : sig.entry.toFixed(4)})</span>
+                    </div>
+                    <div class="smc-stat-row">
+                        <span class="smc-label">Entry Point</span>
+                        <span class="smc-val">$${sig.entry.toFixed(4)}</span>
+                    </div>
+                    <div class="smc-stat-row">
+                        <span class="smc-label" style="color: var(--accent-red);">Stop Loss</span>
+                        <span class="smc-val" style="color: var(--accent-red); ${sig.tp1Hit && sig.status === 'active' ? 'text-decoration: line-through;' : ''}">$${sig.sl.toFixed(4)}</span>
+                    </div>
+                    <div class="smc-stat-row">
+                        <span class="smc-label" style="color: var(--accent);">Take Profit 1</span>
+                        <span class="smc-val" style="color: var(--accent);">${sig.tp1Hit ? '✅ ' : ''}$${sig.tp1.toFixed(4)}</span>
+                    </div>
+                    <div class="smc-stat-row">
+                        <span class="smc-label" style="color: var(--accent);">Take Profit 2 (Close)</span>
+                        <span class="smc-val" style="color: var(--accent);">${sig.tp2Hit ? '✅ ' : ''}$${sig.tp2.toFixed(4)}</span>
+                    </div>
+                    <div class="smc-stat-row">
+                        <span class="smc-label" style="color: var(--text-secondary);">Max Target (TP3)</span>
+                        <span class="smc-val" style="color: var(--text-secondary);">$${sig.tp3.toFixed(4)}</span>
+                    </div>
+                    <!-- SIGNAL TIME ROW ADDED -->
+                    <div class="smc-stat-row" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 8px;">
+                        <span class="smc-label" style="color: var(--accent-blue);"><i class="fa-solid fa-clock"></i> සිග්නල් දිනය සහ වෙලාව</span>
+                        <span class="smc-val" style="color: var(--accent-blue); font-size: 13px;">${new Date(sig.timestamp).toLocaleString()}</span>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+    }
+    container.innerHTML = html;
+
+    const containerProfits = document.getElementById('completedProfitsContainer');
+    const containerLosses = document.getElementById('completedLossesContainer');
+
+    let htmlProfits = profitSigs.length === 0 ? '<div style="text-align: center; color: var(--text-secondary); padding: 20px;">Profit සිග්නල් නොමැත</div>' : profitSigs.map(sig => generateClosedSignalHTML(sig)).join('');
+    if(containerProfits) containerProfits.innerHTML = htmlProfits;
+
+    let htmlLosses = lossSigs.length === 0 ? '<div style="text-align: center; color: var(--text-secondary); padding: 20px;">Loss සිග්නල් නොමැත</div>' : lossSigs.map(sig => generateClosedSignalHTML(sig)).join('');
+    if(containerLosses) containerLosses.innerHTML = htmlLosses;
+}
+
+function initLiveChart(symbol = 'BINANCE:BTCUSDT.P') {
+  currentActiveSymbol = symbol;
+  currentChartSymbol = symbol;
+  const container = document.getElementById('tv_chart_container');
+  if(!container) return;
+  container.innerHTML = '';
+  const studies = encodeURIComponent(JSON.stringify(["Volume@tv-basicstudies","MAExp@tv-basicstudies","BB@tv-basicstudies","RSI@tv-basicstudies","MACD@tv-basicstudies"]));
+  const iframe = document.createElement('iframe');
+  iframe.src = `https://s.tradingview.com/widgetembed/?symbol=${symbol}&interval=5&hidesidetoolbar=0&hidetoptoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=${studies}&theme=dark&style=1&timezone=Etc/UTC&enabled_features=["create_volume_indicator_by_default"]&disabled_features=[]&locale=en`;
+  iframe.style.width = '100%'; iframe.style.height = '100%'; iframe.style.border = 'none'; iframe.style.borderRadius = '8px';
+  container.appendChild(iframe);
+}
+
+function updateLiveChart(symbol) { 
+  initLiveChart(symbol); 
+  const searchInput = document.getElementById('chartSymbolSearch');
+  if(searchInput) searchInput.value = symbol;
+}
+
+
+// ================= 2. FOREX GOLD SMC LOGIC & CHART =================
+async function getSpotKlines(symbol, interval, limit = 100) {
+  while(isApiCoolingDown) await new Promise(r => setTimeout(r, 1000));
+  try {
+    const response = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`);
+    if (!response.ok) {
+        if(response.status === 429 || response.status === 418) {
+            isApiCoolingDown = true;
+            setTimeout(() => { isApiCoolingDown = false; }, 15000); 
+        }
+        return null;
+    }
+    return await response.json();
+  } catch (e) { return null; }
+}
+
+function initGoldChart(symbol = 'OANDA:XAUUSD') {
+  const container = document.getElementById('gold_chart_container');
+  if(!container) return;
+  container.innerHTML = '';
+  const iframe = document.createElement('iframe');
+  const studies = encodeURIComponent(JSON.stringify(["Volume@tv-basicstudies","MAExp@tv-basicstudies","RSI@tv-basicstudies","MACD@tv-basicstudies"]));
+  iframe.src = `https://s.tradingview.com/widgetembed/?symbol=${symbol}&interval=15&hidesidetoolbar=0&hidetoptoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=${studies}&theme=dark&style=1&timezone=Etc/UTC&enabled_features=[]&disabled_features=[]&locale=en`;
+  iframe.style.width = '100%'; iframe.style.height = '100%'; iframe.style.border = 'none'; iframe.style.borderRadius = '8px';
+  container.appendChild(iframe);
+}
+
+function updateForexChart(symbol) { initGoldChart(symbol); }
+
+async function scanForGoldSignal() {
+    if (!globalMarketSafe) return; 
+
+    try {
+        if(isApiCoolingDown) return;
+        const symbol = 'PAXGUSDT'; 
+        const klines1h = await getSpotKlines(symbol, '1h', 200);
+        const klines15m = await getSpotKlines(symbol, '15m', 50);
+        
+        if (!klines1h || !klines15m) {
+            document.getElementById('goldSmcContainer').innerHTML = "<div style='color:var(--accent-red);'>Network Error. Retrying...</div>";
+            return;
+        }
+
+        const closes1h = klines1h.map(k => parseFloat(k[4]));
+        const closes15m = klines15m.map(k => parseFloat(k[4]));
+        const currentPrice = closes15m[closes15m.length - 1];
+
+        const ema200_1h = calculateEMA(closes1h, 200) || closes1h[0];
+        const ema50_15m = calculateEMA(closes15m, 50);
+        const ema21_15m = calculateEMA(closes15m, 21); 
+        const atr = calculateATR(klines15m, 14);
+        const rsi15m = calculateRSI(closes15m, 14); 
+
+        let direction = 'NEUTRAL';
+        if (currentPrice > ema200_1h && ema50_15m > ema200_1h && currentPrice > ema21_15m) direction = 'LONG';
+        else if (currentPrice < ema200_1h && ema50_15m < ema200_1h && currentPrice < ema21_15m) direction = 'SHORT';
+
+        let currentGoldTrend = direction === 'LONG' ? 'UPTREND' : (direction === 'SHORT' ? 'DOWNTREND' : 'NEUTRAL');
+        if (currentGoldTrend !== lastGoldTrend) {
+            lastGoldTrend = currentGoldTrend;
+        }
+
+        let trendStateHTML = currentGoldTrend === 'UPTREND' ? "<span style='color:var(--trend-up); font-weight:bold;'>UPTREND (ඉහළට) 🚀</span>" : (currentGoldTrend === 'DOWNTREND' ? "<span style='color:var(--trend-down); font-weight:bold;'>DOWNTREND (පහළට) 📉</span>" : "<span style='color:var(--text-secondary); font-weight:bold;'>NEUTRAL (මධ්‍යස්ථ) ⚖️</span>");
+        
+        const slDistance = Math.max(atr * 1.5, currentPrice * 0.0015);
+        const tp1Distance = slDistance * 1.0;
+        const tp2Distance = slDistance * 2.5;
+        const tp3Distance = slDistance * 5.0; 
+
+        const entryPrice = currentPrice;
+        const slPrice = direction === 'LONG' ? entryPrice - slDistance : entryPrice + slDistance;
+        
+        const tp1 = direction === 'LONG' ? entryPrice + tp1Distance : entryPrice - tp1Distance;
+        const tp2 = direction === 'LONG' ? entryPrice + tp2Distance : entryPrice - tp2Distance;
+        const tp3 = direction === 'LONG' ? entryPrice + tp3Distance : entryPrice - tp3Distance;
+
+        let updateText = `
+            <div style="margin-bottom: 10px;"><strong>Live Gold Trend State:</strong> ${trendStateHTML}</div>
+            <div style="margin-bottom: 10px;"><strong>Market Overview:</strong> ${
+                direction === 'LONG' 
+                ? "රන් මිල (Gold) ඉහළ යාමේ ප්‍රවණතාවයක් පෙන්නුම් කරයි. Smart money ආයෝජකයින් Long කිරීම් වලට යොමුවී ඇත." 
+                : (direction === 'SHORT' ? "රන් මිල (Gold) පහළ යාමේ ප්‍රවණතාවයක් පෙන්නුම් කරයි. Premium කලාපයේ සිට Discount කලාපය දක්වා මිල පහත වැටීමක් සිදුවිය හැක." : "රන් මිල දැනට නිශ්චිත දිශාවකින් තොරව මධ්‍යස්ථ කලාපයක ගමන් කරයි.")
+            }</div>
+            <div><strong>අද දිනට ඉලක්කය (Max Target):</strong> මිල $${tp3.toFixed(2)} සීමාවට ගමන් කිරීමේ ඉහළ සම්භාවිතාවක් ඇත.</div>
+        `;
+        document.getElementById('goldDailyUpdate').innerHTML = updateText;
+        
+        const goldLastPrice = currentPrice.toFixed(2);
+        const goldHigh = Math.max(...closes1h.slice(-24)).toFixed(2); 
+        const goldLow = Math.min(...closes1h.slice(-24)).toFixed(2); 
+        
+        let goldSummary = `අද දින රන් (XAU/USD) වෙළඳපොළේ වර්තමාන මිල ආසන්න වශයෙන් <strong>$${goldLastPrice}</strong> ක් ලෙස පවතී. පසුගිය පැය 24 තුළ රන් මිලෙහි උපරිමය <strong>$${goldHigh}</strong> ක් වන අතර අවම අගය <strong>$${goldLow}</strong> ක් ලෙස සටහන් විය.<br><br><strong>තාක්ෂණික නිගමනය:</strong> ${direction === 'LONG' ? 'රන් මිල (Gold) මේ මොහොතේ ප්‍රබල UPTREND එකක (ඉහළට) ගමන් කරයි. මිලදී ගැනීම් (Buy/Long) වඩාත් සුදුසුයි.' : (direction === 'SHORT' ? 'රන් මිල (Gold) මේ මොහොතේ ප්‍රබල DOWNTREND එකක (පහළට) ගමන් කරයි. විකිණීම් (Sell/Short) වඩාත් සුදුසුයි.' : 'රන් මිල දැනට නිශ්චිත දිශාවකින් තොරව මධ්‍යස්ථ (NEUTRAL) කලාපයක ගමන් කරයි. පැහැදිලි Trend එකක් එනතුරු රැඳී සිටින්න.')} විශේෂයෙන් අද දින අදාළ ආර්ථික නිවුස් (Forex News) පිළිබඳව සැලකිලිමත් වන්න.`;
+
+        const gSummaryContainer = document.getElementById('goldDailySummaryText');
+        if(gSummaryContainer) gSummaryContainer.innerHTML = goldSummary;
+
+        const todayStr = new Date().toISOString().split('T')[0];
+        if (localStorage.getItem('sniper_gold_summary_date') !== todayStr) {
+            sendDailySummaryToTelegram('Gold (XAU/USD)', goldSummary);
+            localStorage.setItem('sniper_gold_summary_date', todayStr);
+        }
+
+        if (goldActiveSignal && goldActiveSignal.status === 'active') return; 
+        if (direction === 'NEUTRAL') return; 
+
+        let confluence = 35; 
+        if(direction === 'LONG' && rsi15m > 40 && rsi15m < 65) confluence += 15;
+        if(direction === 'SHORT' && rsi15m < 60 && rsi15m > 35) confluence += 15;
+
+        goldActiveSignal = {
+            id: Date.now(),
+            symbol: 'XAU/USD',
+            binanceSymbol: 'PAXGUSDT',
+            direction: direction,
+            entry: entryPrice,
+            sl: slPrice,
+            originalSl: slPrice,
+            tp1: tp1,
+            tp2: tp2,
+            tp3: tp3,
+            status: 'active',
+            roi: 0,
+            currentPrice: entryPrice,
+            tp1Hit: false,
+            tp2Hit: false,
+            message: '⏳ Entry Point එක ලබාගන්න.',
+            timestamp: Date.now(),
+            confluence: confluence
+        };
+
+        saveAllData(); 
+        sendTradeUpdate(goldActiveSignal, "Gold / Forex Pro", "New Signal Detected 🎯");
+        showToast(`🔥 Gold Signal Found: ${goldActiveSignal.direction}`);
+        renderGoldSignalBoxes();
+
+    } catch(e) { console.error("Gold SMC Error:", e); }
+}
+
+async function updateGoldSignals() {
+    if (!goldActiveSignal || goldActiveSignal.status !== 'active') {
+        await scanForGoldSignal();
+        return;
+    }
+
+    let sig = goldActiveSignal;
+    let historyUpdated = false;
+    try {
+        const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${sig.binanceSymbol}`);
+        if(!res.ok) return;
+        const data = await res.json();
+        const currentPrice = parseFloat(data.price);
+        
+        let liveRoi = 0;
+        
+        if (sig.direction === 'LONG') {
+            liveRoi = ((currentPrice - sig.entry) / sig.entry) * 100 * 50; 
+            
+            if (!sig.tp1Hit && currentPrice >= sig.tp1) { 
+                sig.tp1Hit = true; sig.sl = sig.entry; sig.message = "✅ TP1 Hit! 🛡️ SL Moved to Entry Point"; 
+                sendTradeUpdate(sig, "Gold / Forex Pro", "TP1 Hit 🎯");
+            }
+            
+            if (currentPrice >= sig.tp2) { 
+                sig.tp2Hit = true; 
+                sig.status = 'closed'; sig.closePrice = currentPrice; sig.message = "🚀 TP2 Hit! Safe Profit Secured!"; sig.roi = liveRoi; 
+                forexDailyStats.pnl += liveRoi; historyUpdated = true;
+                sendTradeUpdate(sig, "Gold / Forex Pro", "Trade Closed at TP2 🚀");
+            }
+            else if (currentPrice <= sig.sl) { 
+                sig.status = 'closed'; sig.closePrice = currentPrice; 
+                if (sig.tp1Hit) {
+                    sig.message = "✅ Closed safely in Profit (SL Hit at Entry)"; sig.roi = Math.max(0.1, liveRoi); 
+                } else {
+                    sig.message = "❌ Stop Loss Hit."; sig.roi = liveRoi;
+                }
+                forexDailyStats.pnl += sig.roi; historyUpdated = true;
+                sendTradeUpdate(sig, "Gold / Forex Pro", "Trade Closed (SL/Entry) ❌");
+            }
+        } else { // SHORT LOGIC
+            liveRoi = ((sig.entry - currentPrice) / sig.entry) * 100 * 50;
+            
+            if (!sig.tp1Hit && currentPrice <= sig.tp1) { 
+                sig.tp1Hit = true; sig.sl = sig.entry; sig.message = "✅ TP1 Hit! 🛡️ SL Moved to Entry Point"; 
+                sendTradeUpdate(sig, "Gold / Forex Pro", "TP1 Hit 🎯");
+            }
+            
+            if (currentPrice <= sig.tp2) { 
+                sig.tp2Hit = true; 
+                sig.status = 'closed'; sig.closePrice = currentPrice; sig.message = "🚀 TP2 Hit! Safe Profit Secured!"; sig.roi = liveRoi; 
+                forexDailyStats.pnl += liveRoi; historyUpdated = true;
+                sendTradeUpdate(sig, "Gold / Forex Pro", "Trade Closed at TP2 🚀");
+            }
+            else if (currentPrice >= sig.sl) { 
+                sig.status = 'closed'; sig.closePrice = currentPrice;
+                if (sig.tp1Hit) {
+                    sig.message = "✅ Closed safely in Profit (SL Hit at Entry)"; sig.roi = Math.max(0.1, liveRoi); 
+                } else {
+                    sig.message = "❌ Stop Loss Hit."; sig.roi = liveRoi;
+                }
+                forexDailyStats.pnl += sig.roi; historyUpdated = true;
+                sendTradeUpdate(sig, "Gold / Forex Pro", "Trade Closed (SL/Entry) ❌");
+            }
+        }
+
+        if (sig.status === 'closed') {
+            goldCompletedHistory.push(sig);
+            goldActiveSignal = null; 
+        } else {
+            sig.roi = liveRoi; 
+            sig.currentPrice = currentPrice;
+        }
+
+        saveAllData(); 
+        updateForexDailyPnlDisplay();
+        renderGoldSignalBoxes();
+
+    } catch(e) {}
+}
+
+function renderGoldSignalBoxes() {
+    const container = document.getElementById('goldSmcContainer');
+    
+    if(!goldActiveSignal || goldActiveSignal.status !== 'active') {
+        container.innerHTML = '<div style="text-align: center; color: var(--text-secondary); margin: 20px 0;"><span class="pulse" style="display:inline-block; margin-right:8px; background:var(--accent-gold);"></span> ඊළඟ XAU/USD සිග්නල් එක ස්කෑන් කරමින් පවතී...</div>';
+    } else {
+        let sig = goldActiveSignal;
+        const roiColor = sig.roi >= 0 ? 'var(--accent)' : 'var(--accent-red)';
+        const roiSign = sig.roi >= 0 ? '+' : '';
+        let messageStyle = sig.tp1Hit ? `background: rgba(16, 185, 129, 0.2); color: var(--accent);` : `background: rgba(59, 130, 246, 0.2); color: var(--accent-blue);`;
+
+        let smcHtml = `
+            <div style="background: rgba(10, 14, 23, 0.8); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 16px; margin-top: 10px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px; align-items:center;">
+                    <h3 style="color: white; margin: 0; font-size: 18px;"><i class="fa-solid fa-crosshairs"></i> ${sig.symbol}</h3>
+                    <span style="background: ${sig.direction === 'LONG' ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}; color: ${sig.direction === 'LONG' ? 'var(--accent)' : 'var(--accent-red)'}; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size:12px;">${sig.direction}</span>
+                </div>
+                
+                <div style="text-align: center; font-weight: bold; font-size: 13px; padding: 6px; border-radius: 6px; margin: 10px 0; ${messageStyle}">
+                    ${sig.tp1Hit ? sig.message : '<span class="pulse" style="display:inline-block; margin-right:8px; background:var(--accent-gold);"></span> ' + sig.message}
+                </div>
+
+                <div class="smc-stat-row"><span class="smc-label">Live Price / PNL</span><span style="font-size:16px; font-weight:800; color:${roiColor};">${roiSign}${sig.roi.toFixed(2)}% ($${sig.currentPrice ? sig.currentPrice.toFixed(2) : sig.entry.toFixed(2)})</span></div>
+                <div class="smc-stat-row"><span class="smc-label">Entry Point</span><span class="smc-val">$${sig.entry.toFixed(2)}</span></div>
+                <div class="smc-stat-row"><span class="smc-label" style="color: var(--accent-red);">Stop Loss ${sig.tp1Hit ? '(Moved)' : ''}</span><span class="smc-val" style="color: var(--accent-red); ${sig.tp1Hit ? 'text-decoration: underline;' : ''}">${sig.tp1Hit ? `Entry ($${sig.entry.toFixed(2)})` : `$${sig.sl.toFixed(2)}`}</span></div>
+                <div class="smc-stat-row"><span class="smc-label" style="color: var(--accent);">Take Profit 1</span><span class="smc-val" style="color: var(--accent);">${sig.tp1Hit ? '✅ ' : ''}$${sig.tp1.toFixed(2)}</span></div>
+                <div class="smc-stat-row"><span class="smc-label" style="color: var(--accent);">Take Profit 2 (Close)</span><span class="smc-val" style="color: var(--accent);">${sig.tp2Hit ? '✅ ' : ''}$${sig.tp2.toFixed(2)}</span></div>
+                <div class="smc-stat-row"><span class="smc-label" style="color: var(--text-secondary);">Max Target (TP3)</span><span class="smc-val" style="color: var(--text-secondary);">$${sig.tp3.toFixed(2)}</span></div>
+                <!-- SIGNAL TIME ROW ADDED -->
+                <div class="smc-stat-row" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 8px;">
+                    <span class="smc-label" style="color: var(--accent-blue);"><i class="fa-solid fa-clock"></i> සිග්නල් දිනය සහ වෙලාව</span>
+                    <span class="smc-val" style="color: var(--accent-blue); font-size: 13px;">${new Date(sig.timestamp).toLocaleString()}</span>
+                </div>
+            </div>
+        `;
+        container.innerHTML = smcHtml;
+    }
+
+    // Render Gold History Tabs
+    const profitSigs = goldCompletedHistory.filter(s => s.roi >= 0).reverse();
+    const lossSigs = goldCompletedHistory.filter(s => s.roi < 0).reverse();
+
+    const cProfits = document.getElementById('fxProfitsContainer');
+    const cLosses = document.getElementById('fxLossesContainer');
+
+    if(cProfits) cProfits.innerHTML = profitSigs.length === 0 ? '<div style="text-align: center; color: var(--text-secondary); padding: 10px;">Profit සිග්නල් නොමැත</div>' : profitSigs.map(sig => generateClosedSignalHTML(sig)).join('');
+    if(cLosses) cLosses.innerHTML = lossSigs.length === 0 ? '<div style="text-align: center; color: var(--text-secondary); padding: 10px;">Loss සිග්නල් නොමැත</div>' : lossSigs.map(sig => generateClosedSignalHTML(sig)).join('');
+}
+
+
+// ================= 3. ELLIOTT WAVE PRO SUPER CONTAINER =================
+async function scanForElliottWaveSignal() {
+    const monitorEl = document.getElementById('ewScanCurrent');
+    if (!globalMarketSafe) {
+        if(monitorEl) monitorEl.innerHTML = `<span style="color:var(--accent-red);">Paused (Market conditions)...</span>`;
+        return; 
+    }
+
+    try {
+        ewGlobalSignals = ewGlobalSignals.filter(s => s.status === 'active');
+        if (ewGlobalSignals.length >= 6) {
+            if(monitorEl) monitorEl.innerHTML = `Tracking ${ewGlobalSignals.length} Active Signals...`;
+            return;
+        }
+
+        if(monitorEl) monitorEl.innerHTML = `Fetching Binance Market Data...`;
+        
+        const coins = await getMarketCoins();
+        if(!coins || coins.length === 0) {
+            if(monitorEl) monitorEl.innerHTML = `<span style="color:var(--accent-red);">API Error. Retrying...</span>`;
+            return;
+        }
+
+        const batch = coins.slice(scanIndexEW, scanIndexEW + 5);
+        scanIndexEW += 5;
+        if(scanIndexEW >= coins.length) scanIndexEW = 0;
+
+        for (let symbol of batch) {
+            if(isApiCoolingDown) {
+                if(monitorEl) monitorEl.innerHTML = `<span style="color:var(--accent-gold);">API Limit Reached. Pausing 15s...</span>`;
+                await new Promise(r => setTimeout(r, 5000));
+                continue;
+            }
+            if(monitorEl) monitorEl.innerHTML = `Analyzing <span style="color:var(--accent-cyan);">${symbol}</span>...`;
+
+            if (ewGlobalSignals.length >= 6) break; 
+            if (ewGlobalSignals.find(s => s.symbol === symbol)) continue; 
+
+            try {
+                const klines = await getKlines(symbol, '15m', 250); 
+                if (!klines || klines.length < 200) continue;
+
+                const closes = klines.map(k => parseFloat(k[4]));
+                const volumes = klines.map(k => parseFloat(k[5]));
+                const currentPrice = closes[closes.length - 1];
+                const rsi = calculateRSI(closes, 14);
+                
+                const ema13 = calculateEMA(closes, 13); 
+                const ema21 = calculateEMA(closes, 21); 
+                const ema50 = calculateEMA(closes, 50);
+                const ema200 = calculateEMA(closes, 200) || closes[0];
+                
+                const avgVol = volumes.slice(-21, -1).reduce((a,b)=>a+b,0)/20;
+                const currentVol = volumes[volumes.length - 1];
+
+                const prevEma13 = calculateEMA(closes.slice(0, -1), 13);
+                const prevEma21 = calculateEMA(closes.slice(0, -1), 21);
+                
+                const macd = calculateMACD(closes);
+
+                let direction = null;
+                let ewConfirmText = "";
+                let probability = 0;
+
+                const longTrend = ema50 > ema200 && currentPrice > ema50;
+                const longMomentum = prevEma13 <= prevEma21 && ema13 > ema21; 
+                const longVolume = currentVol > avgVol * 1.5;
+
+                const shortTrend = ema50 < ema200 && currentPrice < ema50;
+                const shortMomentum = prevEma13 >= prevEma21 && ema13 < ema21; 
+                const shortVolume = currentVol > avgVol * 1.5;
+
+                if (longTrend && longMomentum && rsi > 45 && rsi < 65 && longVolume && macd > 0) {
+                    direction = 'LONG';
+                    probability = 98;
+                    ewConfirmText = `<strong>Confirmation (Wave 3/5 Impulse):</strong> ප්‍රබල Uptrend එකක් (EMA50 > 200) තුළ මිල නිවැරදි කිරීමක් (Pullback) වී නැවත ඉහළට හැරීමක් (EMA 13 & 21 Golden Crossover) පෙන්නුම් කරයි. මෙය Elliott Wave 3 හෝ 5 වන ආවේගයේ (Impulse) ආරම්භයයි. අතිශය ඉහළ සාර්ථකත්වයක් අපේක්ෂා කෙරේ.`;
+                } 
+                else if (shortTrend && shortMomentum && rsi < 55 && rsi > 35 && shortVolume && macd < 0) {
+                    direction = 'SHORT';
+                    probability = 97;
+                    ewConfirmText = `<strong>Confirmation (Wave 3/5 Impulse):</strong> ප්‍රබල Downtrend එකක් තුළ පැහැදිලි Pullback එකකින් පසු නැවතත් පහළට Momentum එකක් (EMA 13 & 21 Death Crossover) තහවුරු වී ඇත. මෙය Elliott Wave පහතට යාමේ ආවේගයේ ආරම්භයයි. අතිශය ඉහළ සාර්ථකත්වයක් අපේක්ෂා කෙරේ.`;
+                }
+
+                if (direction) {
+                    const atr = calculateATR(klines, 14);
+                    // SMART STOP LOSS (Avoid stop hunts)
+                    const slDistance = Math.max(atr * 1.8, currentPrice * 0.003);
+                    
+                    const tp1Distance = slDistance * 1.0; 
+                    const tp2Distance = slDistance * 2.5;
+                    const tp3Distance = slDistance * 5.0; 
+
+                    const sl = direction === 'LONG' ? currentPrice - slDistance : currentPrice + slDistance;
+                    const tp1 = direction === 'LONG' ? currentPrice + tp1Distance : currentPrice - tp1Distance;
+                    const tp2 = direction === 'LONG' ? currentPrice + tp2Distance : currentPrice - tp2Distance;
+                    const tp3 = direction === 'LONG' ? currentPrice + tp3Distance : currentPrice - tp3Distance;
+
+                    let newEwSetup = {
+                        id: Date.now() + Math.random(),
+                        symbol: symbol, direction: direction, entry: currentPrice, sl: sl, originalSl: sl,
+                        tp1: tp1, tp2: tp2, tp3: tp3,
+                        status: 'active', roi: 0, currentPrice: currentPrice,
+                        tp1Hit: false, tp2Hit: false,
+                        message: '⏳ Entry Zone එකේ පවතී. අදාළ ඉලක්ක (Targets) බලාපොරොත්තු වන්න.',
+                        confirmText: ewConfirmText,
+                        probability: probability,
+                        timestamp: Date.now()
+                    };
+
+                    ewGlobalSignals.push(newEwSetup);
+                    saveAllData(); 
+                    sendTradeUpdate(newEwSetup, "Elliott Wave Pro", "New Signal Detected 🎯");
+                    showToast(`🌊 Elliott Wave Signal Found: ${newEwSetup.symbol}`);
+                }
+            } catch(e) {}
+            await new Promise(r => setTimeout(r, 1500)); 
+        }
+    } catch(e) {
+        if(monitorEl) monitorEl.innerHTML = `<span style="color:var(--accent-red);">Network Error. Retrying...</span>`;
+    }
+}
+
+async function updateElliottWaveSignals() {
+    if(ewGlobalSignals.length === 0) { await scanForElliottWaveSignal(); return; }
+
+    let historyUpdated = false;
+    for (let i=0; i<ewGlobalSignals.length; i++) {
+        let sig = ewGlobalSignals[i];
+        if (sig.status === 'closed') continue;
+
+        try {
+            const res = await fetch(`${BINANCE_BASE}/fapi/v1/ticker/price?symbol=${sig.symbol}`);
+            if(!res.ok) continue;
+            const data = await res.json();
+            const currentPrice = parseFloat(data.price);
+            
+            let liveRoi = 0;
+            if (sig.direction === 'LONG') {
+                liveRoi = ((currentPrice - sig.entry) / sig.entry) * 100 * 10; 
+                if (!sig.tp1Hit && currentPrice >= sig.tp1) { 
+                    sig.tp1Hit = true; sig.sl = sig.entry; sig.message = "✅ TP1 Hit! 🛡️ Stop Loss Entry එකට මාරු කර ඇත (Risk Free)."; 
+                    sendTradeUpdate(sig, "Elliott Wave Pro", "TP1 Hit 🎯");
+                }
+                
+                if (currentPrice >= sig.tp2) { 
+                    sig.tp2Hit = true;
+                    sig.status = 'closed'; sig.closePrice = currentPrice; sig.message = "🚀 TP2 Hit! Wave Safe Profit Secured!"; sig.roi = liveRoi; ewDailyStats.pnl += liveRoi;
+                    ewCompletedHistory.push(sig); historyUpdated = true;
+                    sendTradeUpdate(sig, "Elliott Wave Pro", "Trade Closed at TP2 🚀");
+                }
+                else if (currentPrice <= sig.sl) { 
+                    sig.status = 'closed'; sig.closePrice = currentPrice; 
+                    if (sig.tp1Hit) { sig.message = "✅ Closed Safely in Profit (SL Hit at Entry)"; sig.roi = Math.max(0.1, liveRoi); } 
+                    else { sig.message = "❌ Stop Loss Hit. Pattern Invalidated."; sig.roi = liveRoi; }
+                    ewDailyStats.pnl += sig.roi; ewCompletedHistory.push(sig); historyUpdated = true;
+                    sendTradeUpdate(sig, "Elliott Wave Pro", "Trade Closed (SL/Entry) ❌");
+                }
+            } else {
+                liveRoi = ((sig.entry - currentPrice) / sig.entry) * 100 * 10;
+                if (!sig.tp1Hit && currentPrice <= sig.tp1) { 
+                    sig.tp1Hit = true; sig.sl = sig.entry; sig.message = "✅ TP1 Hit! 🛡️ Stop Loss Entry එකට මාරු කර ඇත (Risk Free)."; 
+                    sendTradeUpdate(sig, "Elliott Wave Pro", "TP1 Hit 🎯");
+                }
+                
+                if (currentPrice <= sig.tp2) { 
+                    sig.tp2Hit = true;
+                    sig.status = 'closed'; sig.closePrice = currentPrice; sig.message = "🚀 TP2 Hit! Wave Safe Profit Secured!"; sig.roi = liveRoi; ewDailyStats.pnl += liveRoi;
+                    ewCompletedHistory.push(sig); historyUpdated = true;
+                    sendTradeUpdate(sig, "Elliott Wave Pro", "Trade Closed at TP2 🚀");
+                }
+                else if (currentPrice >= sig.sl) { 
+                    sig.status = 'closed'; sig.closePrice = currentPrice;
+                    if (sig.tp1Hit) { sig.message = "✅ Closed Safely in Profit (SL Hit at Entry)"; sig.roi = Math.max(0.1, liveRoi); } 
+                    else { sig.message = "❌ Stop Loss Hit. Pattern Invalidated."; sig.roi = liveRoi; }
+                    ewDailyStats.pnl += sig.roi; ewCompletedHistory.push(sig); historyUpdated = true;
+                    sendTradeUpdate(sig, "Elliott Wave Pro", "Trade Closed (SL/Entry) ❌");
+                }
+            }
+            if(sig.status !== 'closed') { sig.roi = liveRoi; sig.currentPrice = currentPrice; }
+        } catch(e){}
+        await new Promise(r => setTimeout(r, 1000)); 
+    }
+    
+    if (historyUpdated) {
+        ewGlobalSignals = ewGlobalSignals.filter(s => s.status === 'active');
+        saveAllData(); 
+    }
+    updateEwDailyPnlDisplay(); 
+    renderEwSignalBoxes();
+    if(ewGlobalSignals.length < 6 && Math.random() < 0.1) scanForElliottWaveSignal(); 
+}
+
+function renderEwSignalBoxes() {
+    const container = document.getElementById('ewSignalsContainer');
+    const countBadge = document.getElementById('ewSignalCount');
+    
+    if(countBadge) countBadge.textContent = `${ewGlobalSignals.filter(s => s.status === 'active').length}/6`;
+
+    if(ewGlobalSignals.length === 0) {
+        container.innerHTML = '<div style="text-align: center; color: var(--text-secondary); margin: 20px 0;"><span class="pulse" style="display:inline-block; margin-right:8px; background:var(--accent-cyan);"></span> High Probability Elliott Wave Signal එකක් ස්කෑන් කරමින් පවතී...</div>';
+    } else {
+        const activeSigs = ewGlobalSignals.filter(s => s.status === 'active').reverse();
+        let html = '';
+        activeSigs.forEach(sig => {
+            const roiColor = sig.roi >= 0 ? 'var(--accent)' : 'var(--accent-red)';
+            const roiSign = sig.roi >= 0 ? '+' : '';
+            let messageStyle = sig.tp1Hit ? `background: rgba(16, 185, 129, 0.2); color: var(--accent);` : `background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan);`;
+
+            html += `
+            <div style="background: rgba(10, 14, 23, 0.9); border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom: 12px;">
+                    <h3 style="color: white; margin: 0; font-size: 18px;"><i class="fa-solid fa-water"></i> ${sig.symbol} <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(${sig.probability}% Prob)</span></h3>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-sm btn-outline" style="font-size: 11px; padding: 4px 8px;" onclick="updateLiveChart('BINANCE:${sig.symbol}.P'); document.getElementById('chartCardContainer').scrollIntoView({behavior: 'smooth', block: 'start'});">📊 View Chart</button>
+                        <span style="background: ${sig.direction === 'LONG' ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}; color: ${sig.direction === 'LONG' ? 'var(--accent)' : 'var(--accent-red)'}; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size:12px;">${sig.direction}</span>
+                    </div>
+                </div>
+
+                <div style="font-size: 13px; color: var(--text-primary); background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; line-height: 1.6; border-left: 3px solid var(--accent-cyan); margin-bottom: 15px;">
+                    ${sig.confirmText}
+                </div>
+
+                <div style="text-align: center; font-weight: bold; font-size: 13px; padding: 8px; border-radius: 6px; margin-bottom: 15px; ${messageStyle}">
+                    ${sig.tp1Hit ? sig.message : '<span class="pulse" style="display:inline-block; margin-right:8px; background:var(--accent-cyan);"></span> ' + sig.message}
+                </div>
+
+                <div style="border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
+                    <div class="smc-stat-row"><span class="smc-label">Live Price / ROI</span><span style="font-size:18px; font-weight:800; color:${roiColor};">${roiSign}${sig.roi.toFixed(2)}% ($${sig.currentPrice ? sig.currentPrice.toFixed(4) : sig.entry.toFixed(4)})</span></div>
+                    <div class="smc-stat-row"><span class="smc-label">Entry Level</span><span class="smc-val">$${sig.entry.toFixed(4)}</span></div>
+                    <div class="smc-stat-row"><span class="smc-label" style="color: var(--accent-red);">Stop Loss ${sig.tp1Hit ? '(Moved to Entry)' : ''}</span><span class="smc-val" style="color: var(--accent-red); ${sig.tp1Hit ? 'text-decoration: underline;' : ''}">$${sig.sl.toFixed(4)}</span></div>
+                    <div class="smc-stat-row"><span class="smc-label" style="color: var(--accent);">Target 1 (TP1)</span><span class="smc-val" style="color: var(--accent);">${sig.tp1Hit ? '✅ ' : ''}$${sig.tp1.toFixed(4)}</span></div>
+                    <div class="smc-stat-row"><span class="smc-label" style="color: var(--accent);">Target 2 (Close)</span><span class="smc-val" style="color: var(--accent);">${sig.tp2Hit ? '✅ ' : ''}$${sig.tp2.toFixed(4)}</span></div>
+                    <div class="smc-stat-row"><span class="smc-label" style="color: var(--text-secondary);">Max Target (TP3)</span><span class="smc-val" style="color: var(--text-secondary);">$${sig.tp3.toFixed(4)}</span></div>
+                    <!-- SIGNAL TIME ROW ADDED -->
+                    <div class="smc-stat-row" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 8px;">
+                        <span class="smc-label" style="color: var(--accent-blue);"><i class="fa-solid fa-clock"></i> සිග්නල් දිනය සහ වෙලාව</span>
+                        <span class="smc-val" style="color: var(--accent-blue); font-size: 13px;">${new Date(sig.timestamp).toLocaleString()}</span>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    // Render History
+    const profitSigs = ewCompletedHistory.filter(s => s.roi >= 0).reverse();
+    const lossSigs = ewCompletedHistory.filter(s => s.roi < 0).reverse();
+
+    const cProfits = document.getElementById('ewProfitsContainer');
+    const cLosses = document.getElementById('ewLossesContainer');
+
+    if(cProfits) cProfits.innerHTML = profitSigs.length === 0 ? '<div style="text-align: center; color: var(--text-secondary); padding: 10px;">Profit සිග්නල් නොමැත</div>' : profitSigs.map(sig => generateClosedSignalHTML(sig)).join('');
+    if(cLosses) cLosses.innerHTML = lossSigs.length === 0 ? '<div style="text-align: center; color: var(--text-secondary); padding: 10px;">Loss සිග්නල් නොමැත</div>' : lossSigs.map(sig => generateClosedSignalHTML(sig)).join('');
+}
+
+
+// ================= 4. PRO SCALPING LOGIC (ZERO-LOSS OPTIMIZED) =================
+async function scanForScalpingSignal() {
+    const monitorEl = document.getElementById('scalpScanCurrent');
+    if (!globalMarketSafe) {
+        if(monitorEl) monitorEl.innerHTML = `<span style="color:var(--accent-red);">Paused (Market conditions)...</span>`;
+        return; 
+    }
+
+    try {
+        const todayStr = new Date().toISOString().split('T')[0];
+        const todayScalps = scalpCompletedHistory.filter(s => new Date(s.timestamp).toISOString().split('T')[0] === todayStr).length;
+        
+        if (todayScalps >= 1000) {
+            if(monitorEl) monitorEl.innerHTML = `Daily Signal Limit Reached (1000/1000)`;
+            return; 
+        }
+
+        scalpGlobalSignals = scalpGlobalSignals.filter(s => s.status === 'active');
+        if (scalpGlobalSignals.length >= 6) {
+            if(monitorEl) monitorEl.innerHTML = `Tracking ${scalpGlobalSignals.length} Active Signals...`;
+            return; 
+        }
+
+        if(monitorEl) monitorEl.innerHTML = `Fetching Binance Market Data...`;
+        const coins = await getMarketCoins();
+        if(!coins || coins.length === 0) {
+            if(monitorEl) monitorEl.innerHTML = `<span style="color:var(--accent-red);">API Error. Retrying...</span>`;
+            return;
+        }
+
+        const batch = coins.slice(scanIndexScalp, scanIndexScalp + 5);
+        scanIndexScalp += 5;
+        if(scanIndexScalp >= coins.length) scanIndexScalp = 0;
+
+        for (let symbol of batch) {
+            if(isApiCoolingDown) {
+                if(monitorEl) monitorEl.innerHTML = `<span style="color:var(--accent-gold);">API Limit Reached. Pausing 15s...</span>`;
+                await new Promise(r => setTimeout(r, 5000));
+                continue;
+            }
+            if(monitorEl) monitorEl.innerHTML = `Analyzing <span style="color:#8b5cf6;">${symbol}</span>...`;
+
+            if (scalpGlobalSignals.length >= 6) break; 
+            if (scalpGlobalSignals.find(s => s.symbol === symbol)) continue;
+
+            try {
+                const klines = await getKlines(symbol, '1m', 200); 
+                if (!klines || klines.length < 200) continue;
+
+                const closes = klines.map(k => parseFloat(k[4]));
+                const volumes = klines.map(k => parseFloat(k[5]));
+                const highs = klines.map(k => parseFloat(k[2])); 
+                const lows = klines.map(k => parseFloat(k[3]));  
+                const currentPrice = closes[closes.length - 1];
+                
+                const ema9 = calculateEMA(closes, 9);
+                const ema21 = calculateEMA(closes, 21);
+                const ema50 = calculateEMA(closes, 50); 
+                const ema200 = calculateEMA(closes, 200) || closes[0];
+                const rsi = calculateRSI(closes, 14);
+                const bb1m = calculateBollingerBands(closes, 20, 2);
+                
+                const avgVol = volumes.slice(-21, -1).reduce((a,b)=>a+b,0)/20;
+                const currentVol = volumes[volumes.length - 1];
+
+                const prevRsi = calculateRSI(closes.slice(0, -1), 14);
+                const recentHigh = Math.max(...highs.slice(-6, -1));
+                const recentLow = Math.min(...lows.slice(-6, -1));
+                
+                const touchedEma21Long = Math.min(...lows.slice(-5)) <= ema21 * 1.0005;
+                const touchedEma21Short = Math.max(...highs.slice(-5)) >= ema21 * 0.9995;
+
+                let direction = null;
+                let strategyDesc = "";
+
+                // PRO SCALPING LOGIC WITH BOLLINGER BANDS FOR ZERO-LOSS
+                if (ema50 > ema200 && ema9 > ema21 && currentPrice > ema50 && touchedEma21Long && currentPrice > bb1m.upper && rsi > 55 && rsi < 75 && currentVol > avgVol * 3.5) {
+                    direction = 'LONG';
+                    strategyDesc = `<strong>Pro Scalping (BB Breakout):</strong> ලොව ප්‍රමුඛතම Scalpers ලා භාවිතා කරන <strong>Bollinger Bands Squeeze Breakout</strong> උපායමාර්ගයයි. ප්‍රධාන Trend එක (EMA200) Long වන අතර, Volume Spike (350%) එකක් සමග BB Upper සීමාව කඩාගෙන ඉහළට යයි. අතිශය වේගවත්, ලොස් නොවන Trade එකකි.`;
+                } 
+                else if (ema50 < ema200 && ema9 < ema21 && currentPrice < ema50 && touchedEma21Short && currentPrice < bb1m.lower && rsi < 45 && rsi > 25 && currentVol > avgVol * 3.5) {
+                    direction = 'SHORT';
+                    strategyDesc = `<strong>Pro Scalping (BB Breakout):</strong> ලොව ප්‍රමුඛතම Scalpers ලා භාවිතා කරන <strong>Bollinger Bands Squeeze Breakout</strong> උපායමාර්ගයයි. ප්‍රධාන Trend එක (EMA200) Short වන අතර, Volume Spike (350%) එකක් සමග BB Lower සීමාව කඩාගෙන පහළට යයි. අතිශය වේගවත්, ලොස් නොවන Trade එකකි.`;
+                }
+
+                if (direction) {
+                    const atr = calculateATR(klines, 14);
+                    // VERY SMART STOP LOSS PLACEMENT FOR SCALPING
+                    let slPriceCalc = direction === 'LONG' ? Math.min(recentLow, bb1m.sma) - (atr * 0.5) : Math.max(recentHigh, bb1m.sma) + (atr * 0.5);
+                    
+                    const minSlDist = currentPrice * 0.0015; 
+                    const maxSlDist = currentPrice * 0.008;   
+                    
+                    let actualSlDist = Math.abs(currentPrice - slPriceCalc);
+                    if(actualSlDist < minSlDist) actualSlDist = minSlDist;
+                    if(actualSlDist > maxSlDist) actualSlDist = maxSlDist;
+
+                    const sl = direction === 'LONG' ? currentPrice - actualSlDist : currentPrice + actualSlDist;
+                    
+                    const tp1 = direction === 'LONG' ? currentPrice + (actualSlDist * 1.5) : currentPrice - (actualSlDist * 1.5);
+                    const tp2 = direction === 'LONG' ? currentPrice + (actualSlDist * 3.0) : currentPrice - (actualSlDist * 3.0);
+                    const tp3 = direction === 'LONG' ? currentPrice + (actualSlDist * 5.0) : currentPrice - (actualSlDist * 5.0);
+
+                    let newScalpSetup = {
+                        id: Date.now() + Math.random(),
+                        symbol: symbol, direction: direction, entry: currentPrice, sl: sl, originalSl: sl,
+                        tp1: tp1, tp2: tp2, tp3: tp3,
+                        status: 'active', roi: 0, currentPrice: currentPrice,
+                        tp1Hit: false, tp2Hit: false,
+                        message: '⚡ Scalping Signal Active. ඉක්මනින් Trade එකට ඇතුලත් වන්න.',
+                        confirmText: strategyDesc,
+                        timestamp: Date.now()
+                    };
+
+                    scalpGlobalSignals.push(newScalpSetup);
+                    saveAllData(); 
+                    sendTradeUpdate(newScalpSetup, "Lightning Scalp", "New Signal Detected 🎯");
+                    showToast(`⚡ New Scalp Signal: ${newScalpSetup.symbol}`);
+                    renderScalpSignalBoxes();
+                }
+            } catch(e) {}
+            await new Promise(r => setTimeout(r, 1500)); 
+        }
+    } catch(e) {
+        if(monitorEl) monitorEl.innerHTML = `<span style="color:var(--accent-red);">Network Error. Retrying...</span>`;
+    }
+}
+
+async function updateScalpingSignals() {
+    if(scalpGlobalSignals.length === 0) { await scanForScalpingSignal(); return; }
+
+    let historyUpdated = false;
+    for (let i=0; i<scalpGlobalSignals.length; i++) {
+        let sig = scalpGlobalSignals[i];
+        if (sig.status === 'closed') continue;
+
+        try {
+            const res = await fetch(`${BINANCE_BASE}/fapi/v1/ticker/price?symbol=${sig.symbol}`);
+            if(!res.ok) continue;
+            const data = await res.json();
+            const currentPrice = parseFloat(data.price);
+            
+            let liveRoi = 0;
+            if (sig.direction === 'LONG') {
+                liveRoi = ((currentPrice - sig.entry) / sig.entry) * 100 * 20; // 20x lev assumed for scalping
+                
+                if (!sig.tp1Hit && currentPrice >= sig.tp1) { 
+                    sig.tp1Hit = true; sig.sl = sig.entry; sig.message = "✅ TP1 Hit! 🛡️ SL to Entry."; 
+                    sendTradeUpdate(sig, "Lightning Scalp", "TP1 Hit 🎯");
+                }
+                
+                // CLOSES AT TP2 TO SECURE PROFITS
+                if (currentPrice >= sig.tp2) { 
+                    sig.tp2Hit = true;
+                    sig.status = 'closed'; sig.closePrice = currentPrice; sig.message = "🚀 TP2 Hit! Scalp Safe Profit Secured!"; sig.roi = liveRoi; scalpDailyStats.pnl += liveRoi;
+                    scalpCompletedHistory.push(sig); historyUpdated = true;
+                    sendTradeUpdate(sig, "Lightning Scalp", "Trade Closed at TP2 🚀");
+                }
+                else if (currentPrice <= sig.sl) { 
+                    sig.status = 'closed'; sig.closePrice = currentPrice; 
+                    if (sig.tp1Hit) { sig.message = "✅ Closed safely in Profit (SL Hit at Entry)"; sig.roi = Math.max(0.1, liveRoi); } 
+                    else { sig.message = "❌ Stop Loss Hit."; sig.roi = liveRoi; }
+                    scalpDailyStats.pnl += sig.roi; scalpCompletedHistory.push(sig); historyUpdated = true;
+                    sendTradeUpdate(sig, "Lightning Scalp", "Trade Closed (SL/Entry) ❌");
+                }
+            } else {
+                liveRoi = ((sig.entry - currentPrice) / sig.entry) * 100 * 20;
+                
+                if (!sig.tp1Hit && currentPrice <= sig.tp1) { 
+                    sig.tp1Hit = true; sig.sl = sig.entry; sig.message = "✅ TP1 Hit! 🛡️ SL to Entry."; 
+                    sendTradeUpdate(sig, "Lightning Scalp", "TP1 Hit 🎯");
+                }
+                
+                // CLOSES AT TP2 TO SECURE PROFITS
+                if (currentPrice <= sig.tp2) { 
+                    sig.tp2Hit = true;
+                    sig.status = 'closed'; sig.closePrice = currentPrice; sig.message = "🚀 TP2 Hit! Scalp Safe Profit Secured!"; sig.roi = liveRoi; scalpDailyStats.pnl += liveRoi;
+                    scalpCompletedHistory.push(sig); historyUpdated = true;
+                    sendTradeUpdate(sig, "Lightning Scalp", "Trade Closed at TP2 🚀");
+                }
+                else if (currentPrice >= sig.sl) { 
+                    sig.status = 'closed'; sig.closePrice = currentPrice;
+                    if (sig.tp1Hit) { sig.message = "✅ Closed safely in Profit (SL Hit at Entry)"; sig.roi = Math.max(0.1, liveRoi); } 
+                    else { sig.message = "❌ Stop Loss Hit."; sig.roi = liveRoi; }
+                    scalpDailyStats.pnl += sig.roi; scalpCompletedHistory.push(sig); historyUpdated = true;
+                    sendTradeUpdate(sig, "Lightning Scalp", "Trade Closed (SL/Entry) ❌");
+                }
+            }
+            if(sig.status !== 'closed') { sig.roi = liveRoi; sig.currentPrice = currentPrice; }
+        } catch(e){}
+        await new Promise(r => setTimeout(r, 1000)); 
+    }
+    
+    if (historyUpdated) {
+        scalpGlobalSignals = scalpGlobalSignals.filter(s => s.status === 'active');
+        saveAllData(); 
+    }
+    updateScalpDailyPnlDisplay(); 
+    renderScalpSignalBoxes();
+    if(scalpGlobalSignals.length < 6 && Math.random() < 0.1) scanForScalpingSignal(); 
+}
+
+// Render active scalping signals
+function renderScalpSignalBoxes() {
+    const container = document.getElementById('scalpSignalsContainer');
+    const countBadge = document.getElementById('scalpSignalCount');
+    
+    const todayStr = new Date().toISOString().split('T')[0];
+    const todayScalps = scalpCompletedHistory.filter(s => new Date(s.timestamp).toISOString().split('T')[0] === todayStr).length;
+    
+    if(countBadge) countBadge.textContent = `${scalpGlobalSignals.filter(s => s.status === 'active').length}/6`;
+
+    if(scalpGlobalSignals.length === 0) {
+        container.innerHTML = '<div style="text-align: center; color: var(--text-secondary); margin: 20px 0;"><span class="pulse" style="display:inline-block; margin-right:8px; background:#8b5cf6;"></span> ඊළඟ වේගවත් Scalp සිග්නල් එක ස්කෑන් කරමින් පවතී...</div>';
+    } else {
+        const activeSigs = scalpGlobalSignals.filter(s => s.status === 'active').reverse();
+        let html = '';
+        activeSigs.forEach(sig => {
+            const roiColor = sig.roi >= 0 ? 'var(--accent)' : 'var(--accent-red)';
+            const roiSign = sig.roi >= 0 ? '+' : '';
+            let messageStyle = sig.tp1Hit ? `background: rgba(16, 185, 129, 0.2); color: var(--accent);` : `background: rgba(139, 92, 246, 0.2); color: #8b5cf6;`;
+
+            html += `
+            <div style="background: rgba(10, 14, 23, 0.9); border: 1px solid #8b5cf6; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom: 12px;">
+                    <h3 style="color: white; margin: 0; font-size: 18px;"><i class="fa-solid fa-bolt"></i> ${sig.symbol}</h3>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-sm btn-outline" style="font-size: 11px; padding: 4px 8px;" onclick="updateLiveChart('BINANCE:${sig.symbol}.P'); document.getElementById('chartCardContainer').scrollIntoView({behavior: 'smooth', block: 'start'});">📊 View Chart</button>
+                        <span style="background: ${sig.direction === 'LONG' ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}; color: ${sig.direction === 'LONG' ? 'var(--accent)' : 'var(--accent-red)'}; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size:12px;">${sig.direction}</span>
+                    </div>
+                </div>
+
+                <div style="font-size: 13px; color: var(--text-primary); background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; line-height: 1.6; border-left: 3px solid #8b5cf6; margin-bottom: 15px;">
+                    ${sig.confirmText}
+                </div>
+
+                <div style="text-align: center; font-weight: bold; font-size: 13px; padding: 8px; border-radius: 6px; margin-bottom: 15px; ${messageStyle}">
+                    ${sig.tp1Hit ? sig.message : '<span class="pulse" style="display:inline-block; margin-right:8px; background:#8b5cf6;"></span> ' + sig.message}
+                </div>
+
+                <div style="border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
+                    <div class="smc-stat-row"><span class="smc-label">Live Price / ROI</span><span style="font-size:18px; font-weight:800; color:${roiColor};">${roiSign}${sig.roi.toFixed(2)}% ($${sig.currentPrice ? sig.currentPrice.toFixed(4) : sig.entry.toFixed(4)})</span></div>
+                    <div class="smc-stat-row"><span class="smc-label">Entry Level</span><span class="smc-val">$${sig.entry.toFixed(4)}</span></div>
+                    <div class="smc-stat-row"><span class="smc-label" style="color: var(--accent-red);">Stop Loss ${sig.tp1Hit ? '(Moved to Entry)' : ''}</span><span class="smc-val" style="color: var(--accent-red); ${sig.tp1Hit ? 'text-decoration: underline;' : ''}">$${sig.sl.toFixed(4)}</span></div>
+                    <div class="smc-stat-row"><span class="smc-label" style="color: var(--accent);">Target 1 (TP1)</span><span class="smc-val" style="color: var(--accent);">${sig.tp1Hit ? '✅ ' : ''}$${sig.tp1.toFixed(4)}</span></div>
+                    <div class="smc-stat-row"><span class="smc-label" style="color: var(--accent);">Target 2 (Close)</span><span class="smc-val" style="color: var(--accent);">${sig.tp2Hit ? '✅ ' : ''}$${sig.tp2.toFixed(4)}</span></div>
+                    <div class="smc-stat-row"><span class="smc-label" style="color: #8b5cf6;">Scalp Target (Max TP3)</span><span class="smc-val" style="color: #8b5cf6;">$${sig.tp3.toFixed(4)}</span></div>
+                    <!-- SIGNAL TIME ROW ADDED -->
+                    <div class="smc-stat-row" style="border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 5px; padding-top: 8px;">
+                        <span class="smc-label" style="color: var(--accent-blue);"><i class="fa-solid fa-clock"></i> සිග්නල් දිනය සහ වෙලාව</span>
+                        <span class="smc-val" style="color: var(--accent-blue); font-size: 13px;">${new Date(sig.timestamp).toLocaleString()}</span>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    // Render Scalp History
+    const profitSigs = scalpCompletedHistory.filter(s => s.roi >= 0).reverse();
+    const lossSigs = scalpCompletedHistory.filter(s => s.roi < 0).reverse();
+
+    const cProfits = document.getElementById('scalpProfitsContainer');
+    const cLosses = document.getElementById('scalpLossesContainer');
+
+    if(cProfits) cProfits.innerHTML = profitSigs.length === 0 ? '<div style="text-align: center; color: var(--text-secondary); padding: 10px;">Profit සිග්නල් නොමැත</div>' : profitSigs.map(sig => generateClosedSignalHTML(sig)).join('');
+    if(cLosses) cLosses.innerHTML = lossSigs.length === 0 ? '<div style="text-align: center; color: var(--text-secondary); padding: 10px;">Loss සිග්නල් නොමැත</div>' : lossSigs.map(sig => generateClosedSignalHTML(sig)).join('');
+}
+
+
+// ================= AUTH AND STARTUP =================
+function handleLogin(e) { 
+    e.preventDefault(); 
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    let users = JSON.parse(localStorage.getItem('sniper_users') || '[]');
+    let validUser = users.find(u => u.email === email && u.password === password);
+
+    if (!validUser) {
+        alert("Email එක හෝ Password එක වැරදියි. කරුණාකර පළමුව Sign Up වන්න.");
+        return;
+    }
+
+    localStorage.setItem('sniper_logged_in', 'true');
+    currentUser = validUser;
+    showDashboard(); 
+}
+
+function handleSignup(e) { 
+    e.preventDefault(); 
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const confirmPassword = document.getElementById('signupConfirm').value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords සමාන නොවේ!");
+        return;
+    }
+
+    let users = JSON.parse(localStorage.getItem('sniper_users') || '[]');
+    let userExists = users.find(u => u.email === email);
+
+    if (userExists) {
+        alert("මෙම Email එකෙන් දැනටමත් ගිණුමක් සාදා ඇත. කරුණාකර Log in වන්න.");
+        return;
+    }
+
+    users.push({ name: name, email: email, password: password });
+    localStorage.setItem('sniper_users', JSON.stringify(users));
+
+    localStorage.setItem('sniper_logged_in', 'true');
+    currentUser = { name: name, email: email };
+    showDashboard(); 
+}
+
+function logout() { 
+    localStorage.removeItem('sniper_logged_in');
+    document.location.reload(); 
+}
+
+function showDashboard() {
+  document.getElementById('authRequired').classList.add('hidden');
+  document.getElementById('dashboard').classList.remove('hidden');
+  document.getElementById('authButtons').classList.add('hidden');
+  document.getElementById('userButtons').classList.remove('hidden');
+  
+  // සාමාන්‍ය අයට Settings වල Telegram එක පෙන්වයි
+  document.getElementById('settingTelegramToken').value = settings.telegramToken || "";
+  document.getElementById('settingChatId').value = settings.chatId || "";
+  document.getElementById('settingConfluence').value = settings.minConfluence || 85;
+  document.getElementById('settingRR').value = settings.rrTarget || 5;
+  document.getElementById('settingTimeframe').value = settings.timeframe || '5m';
+  document.getElementById('settingVolume').value = settings.minVolumeRatio || 2.0;
+
+  hideModal('loginModal');
+  hideModal('signupModal');
+  
+  enableBackgroundExecution();
+
+  fetchTopCoins(); fetchAllFuturesCoins();
+  fetchFearGreed(); fetchProMarketData(); startNewsTimer();
+  
+  fetchCryptoNewsSi();
+  fetchForexNewsSi();
+  updateMarketTrend();
+
+  setTimeout(() => {
+    initLiveChart('BINANCE:BTCUSDT.P');
+    initGoldChart('OANDA:XAUUSD');
+    updateForexDailyPnlDisplay();
+    updateDailyPnlDisplay();
+    updateEwDailyPnlDisplay();
+    updateScalpDailyPnlDisplay();
+    scanForGoldSignal();
+    scanForBestMarketSignal();
+    scanForElliottWaveSignal();
+    scanForScalpingSignal();
+  }, 500);
+
+  checkMarketConditions(); 
+  setInterval(checkMarketConditions, 60000); 
+
+  // INTERVALS INCREASED TO PREVENT RATE LIMITING
+  smcTrackerInterval = setInterval(updateGlobalBestSignals, 45000); 
+  goldSmcInterval = setInterval(updateGoldSignals, 20000); 
+  ewTrackerInterval = setInterval(updateElliottWaveSignals, 30000); 
+  scalpTrackerInterval = setInterval(updateScalpingSignals, 15000); 
+
+  setInterval(updateMarketTrend, 60000);
+}
+
+function showModal(id) { document.getElementById(id).classList.add('active'); }
+function hideModal(id) { document.getElementById(id).classList.remove('active'); }
+
+window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('sniper_logged_in') === 'true') {
+        showDashboard();
+    }
+});
+
+// ================= LIVE NEWS TRANSLATION & FETCH (NO API BLOCKS) =================
+async function translateToSinhala(text) {
+    try {
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=si&dt=t&q=${encodeURIComponent(text)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        return data[0].map(x => x[0]).join('');
+    } catch(e) {
+        return text; 
+    }
+}
+
+async function fetchCryptoNewsSi() {
+    const container = document.getElementById('cryptoNewsContainer');
+    if(!container) return;
+    try {
+        const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://cointelegraph.com/rss');
+        const data = await res.json();
+        let html = '';
+        const items = data.items.slice(0, 6);
+        for(let item of items) {
+            const titleSi = await translateToSinhala(item.title);
+            let time = new Date(item.pubDate).toLocaleString();
+            html += `
+            <div class="news-item" style="border-left-color: var(--accent-blue)">
+                <div class="news-title"><a href="${item.link}" target="_blank" style="color:white;text-decoration:none;">${titleSi}</a></div>
+                <div class="news-meta">මූලාශ්‍රය: Cointelegraph | ${time}</div>
+            </div>`;
+        }
+        container.innerHTML = html;
+        container.style.overflowY = 'auto';
+    } catch(e) {
+        container.innerHTML = '<div style="text-align:center; padding: 20px;">දත්ත ලබාගැනීමට නොහැක. අන්තර්ජාලය පරීක්ෂා කරන්න.</div>';
+    }
+}
+
+async function fetchForexNewsSi() {
+    const container = document.getElementById('forexNewsContainer');
+    if(!container) return;
+    try {
+        const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.forexlive.com/feed/news');
+        const data = await res.json();
+        const items = data.items.slice(0, 6);
+        
+        let html = '';
+        for(let item of items) {
+            const titleSi = await translateToSinhala(item.title);
+            let time = new Date(item.pubDate).toLocaleString();
+            let impactColor = item.title.includes('USD') || item.title.includes('EUR') || item.title.includes('Bank') ? 'var(--accent-red)' : 'var(--accent-gold)';
+            let impactSi = item.title.includes('USD') || item.title.includes('EUR') || item.title.includes('Bank') ? 'ඉහළ අවදානම්' : 'මධ්‍යම අවදානම්';
+
+            html += `
+            <div class="news-item" style="border-left-color:${impactColor}">
+                <div class="news-title"><a href="${item.link}" target="_blank" style="color:white;text-decoration:none;">${titleSi}</a></div>
+                <div class="news-meta">අවදානම: ${impactSi} | ${time}</div>
+            </div>`;
+        }
+        container.innerHTML = html;
+        container.style.overflowY = 'auto';
+    } catch(e) {
+        container.innerHTML = '<div style="text-align:center; padding: 20px;">Forex දත්ත ලබාගැනීමට නොහැක. අන්තර්ජාලය පරීක්ෂා කරන්න.</div>';
+    }
+}
+</script>
+</body>
+</html>
